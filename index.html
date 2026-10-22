@@ -4,8 +4,177 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Crônicas de Arton — Fichas Tormenta20</title>
-<link rel="stylesheet" href="style.css">
-</head><body>
+<style>
+:root {
+  --site-primary: #8f332d;
+  --site-secondary: #25251f;
+  --site-background: #10110f;
+  --site-on-primary: #fff5e9;
+  --site-on-secondary: #e9dfca;
+  --site-on-background: #eee8db;
+  --site-font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --site-font-heading: Georgia, "Times New Roman", serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --bg: var(--site-background);
+  --panel: #191a16;
+  --panel-2: #20211b;
+  --line: #39372f;
+  --muted: #aaa394;
+  --gold: #c7a66a;
+  --red: var(--site-primary);
+  --ink: #eee8db;
+}
+* { box-sizing: border-box; }
+html { background: var(--site-background); }
+body { margin: 0; background: light-dark(var(--site-background), var(--site-background)); color: var(--ink); font: 14px var(--site-font-body); }
+button,input,select,textarea { font: inherit; }
+button { cursor: pointer; color: var(--ink); background: #24251f; border: 1px solid var(--line); border-radius: calc(5px * var(--site-radius-scale)); padding: calc(10px * var(--site-spacing-scale)) calc(13px * var(--site-spacing-scale)); transition: .15s ease; }
+button:hover { border-color: var(--gold); background: #303027; }
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+input,select,textarea { background: #11120f; color: var(--ink); border: 1px solid var(--line); border-radius: calc(4px * var(--site-radius-scale)); padding: 9px 10px; width: 100%; min-width: 0; }
+textarea { resize: vertical; min-height: 86px; }
+label { display: grid; gap: 6px; color: var(--muted); font-size: 11px; letter-spacing: .04em; }
+h1,h2,h3,p { margin-top: 0; }
+h1,h2,h3 { font-family: var(--site-font-heading); font-weight: 500; }
+h1 { font-size: calc(42px * var(--site-heading-scale)); line-height: 1.02; margin: 12px 0; letter-spacing: -.035em; }
+h1 em { color: var(--gold); font-style: italic; }
+h2 { font-size: calc(25px * var(--site-heading-scale)); margin-bottom: 5px; }
+h3 { font-size: calc(18px * var(--site-heading-scale)); margin-bottom: 12px; }
+small,.muted { color: var(--muted); }
+.app { min-height: 100vh; width: 100%; background: var(--site-background); border-radius: 0; display: grid; grid-template-columns: 236px minmax(0,1fr); }
+aside { background: #151611; border-right: 1px solid var(--line); padding: 28px 18px; display: flex; flex-direction: column; gap: 12px; min-height: 100vh; }
+.brand { display:flex; align-items:center; gap:12px; margin-bottom: 32px; }
+.brand-mark { width:42px; height:42px; display:grid; place-items:center; border:1px solid var(--gold); color:var(--gold); font: 26px Georgia,serif; transform: rotate(-4deg); }
+.brand-text { font-size:10px; letter-spacing:.18em; line-height:1.7; color:var(--muted); }
+.brand-text strong { display:block; color:var(--ink); font-size:12px; }
+.side-label,.eyebrow,.overline { color:var(--muted); font-size:9px; letter-spacing:.18em; text-transform:uppercase; }
+aside select { margin-bottom: 3px; }
+aside button { text-align:left; }
+nav { display:grid; gap:5px; margin-top:18px; }
+nav button { border-color:transparent; background:transparent; text-align:left; color:var(--muted); padding:12px; }
+nav button.active { color:var(--gold); background:#c7a66a12; border-color:#c7a66a35; }
+nav button span { display:inline-block; width:28px; color:var(--gold); }
+.aside-bottom { margin-top:auto; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:10px; line-height:1.8; }
+.save-dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:#8ba477; margin-right:6px; }
+main { min-width:0; padding: 0 34px 30px; }
+header { display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:74px; border-bottom:1px solid var(--line); color:var(--muted); font-size:10px; letter-spacing:.12em; }
+.header-actions { display:flex; gap:7px; flex-wrap:wrap; }
+.header-actions button { font-size:11px; }
+.primary { background:var(--red); color:var(--site-on-primary); border-color:var(--red); font-weight:700; }
+.primary:hover { background:#a8463e; }
+.intro { display:flex; align-items:center; justify-content:space-between; gap:22px; padding:34px 10px 30px; border-bottom:1px solid var(--line); position:relative; overflow:hidden; }
+.intro p { color:var(--muted); margin-bottom:0; }
+.sigill { width:132px; height:132px; flex:none; border:1px solid #c7a66a50; outline:1px solid #c7a66a20; outline-offset:7px; border-radius:50%; display:grid; place-items:center; color:#c7a66a7a; font:70px Georgia,serif; transform:rotate(-12deg); opacity:var(--site-decoration-opacity); }
+.page-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:26px 0 20px; }
+.page-heading p { color:var(--muted); font-size:12px; margin-bottom:0; }
+.view { display:grid; gap:16px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:calc(7px * var(--site-radius-scale)); padding:20px; min-width:0; }
+.card-title { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:17px; }
+.card-title h3 { margin:0; }
+.tag { display:inline-block; border:1px solid #c7a66a55; color:var(--gold); background:#c7a66a0c; border-radius:3px; padding:5px 8px; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
+.dashboard { display:grid; grid-template-columns:minmax(220px,.78fr) minmax(0,1.6fr); gap:16px; }
+.profile { padding:0; overflow:hidden; }
+.portrait { min-height:155px; display:grid; place-items:center; background:radial-gradient(ellipse at 50% 100%, #60382a, transparent 60%),linear-gradient(135deg,#29271f,#151611); color:#c7a66a99; font:100px Georgia,serif; border-bottom:1px solid var(--line); }
+.profile-body { padding:20px; }
+.profile-body h3 { font-size:25px; margin:12px 0 5px; overflow-wrap:anywhere; }
+.profile-body p { color:var(--muted); font-size:12px; }
+.details { border-top:1px solid var(--line); margin-top:16px; padding-top:12px; display:grid; gap:11px; }
+.detail { display:flex; justify-content:space-between; gap:10px; font-size:11px; }
+.detail span { color:var(--muted); }
+.right-stack { display:grid; gap:16px; align-content:start; }
+.resources { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.resource { padding:16px; }
+.resource strong { display:block; font:27px Georgia,serif; margin:11px 0; }
+.resource strong small { font:11px var(--site-font-body); }
+.bar { height:4px; background:#ffffff12; border-radius:8px; overflow:hidden; margin-bottom:12px; }
+.bar i { display:block; height:100%; background:var(--gold); }
+.resource-controls { display:flex; align-items:center; gap:5px; }
+.resource-controls button { padding:3px 8px; }
+.resource-controls input { padding:4px; text-align:center; }
+.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--panel); }
+.stat { padding:15px; border-right:1px solid var(--line); }
+.stat:last-child { border:0; }
+.stat span { display:block; color:var(--muted); font-size:9px; letter-spacing:.13em; text-transform:uppercase; }
+.stat strong { display:block; font:27px Georgia,serif; margin-top:8px; }
+.attributes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.attr-list { display:grid; gap:9px; }
+.attr { display:grid; grid-template-columns:minmax(0,1fr) 68px 42px; align-items:center; gap:8px; }
+.attr .attr-name { font-size:12px; color:var(--ink); }
+.attr input { text-align:center; padding:7px; }
+.modifier { color:var(--gold); text-align:center; font:17px Georgia,serif; }
+.grid-two { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.form-grid .wide { grid-column:1/-1; }
+.skills { display:grid; gap:4px; }
+.skill-row { display:grid; grid-template-columns:minmax(0,1fr) 72px 64px 54px; gap:8px; align-items:center; border-bottom:1px solid #ffffff0b; padding:8px 0; font-size:12px; }
+.skill-row:last-child { border:0; }
+.skill-row input { padding:6px; text-align:center; }
+.skill-row .total { color:var(--gold); text-align:center; font-weight:700; }
+.skill-row .trained { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--muted); }
+.skill-row .trained input { width:15px; }
+.skill-head { color:var(--muted); font-size:9px; letter-spacing:.1em; text-transform:uppercase; }
+.combat-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.combat-stat { padding:15px; border:1px solid var(--line); background:var(--panel-2); border-radius:5px; }
+.combat-stat label { font-size:9px; }
+.combat-stat input { font:24px Georgia,serif; margin-top:8px; }
+.item-row { display:grid; grid-template-columns:minmax(0,1fr) 76px 90px 42px; gap:8px; align-items:end; margin-bottom:9px; }
+.item-row button { padding:8px; }
+.item-list { display:grid; gap:8px; }
+.item { display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); padding:10px 0; }
+.item strong { font-size:12px; }
+.item small { display:block; margin-top:3px; }
+.item button { padding:5px 9px; }
+.roll-result { color:var(--gold); font:25px Georgia,serif; }
+footer { border-top:1px solid var(--line); padding-top:18px; margin-top:28px; display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:10px; }
+.notice { color:var(--muted); font-size:11px; line-height:1.6; }
+.hidden { display:none!important; }
+@media(max-width:1050px) {
+ .app { grid-template-columns:190px minmax(0,1fr); }
+ aside { padding:22px 12px; }
+ main { padding:0 20px 24px; }
+ .dashboard { grid-template-columns:1fr; }
+ .profile { display:grid; grid-template-columns:160px minmax(0,1fr); }
+ .portrait { height:100%; border-bottom:0; border-right:1px solid var(--line); }
+}
+@media(max-width:700px) {
+ .app { grid-template-columns:1fr; }
+ aside { min-height:auto; padding:14px; border-right:0; border-bottom:1px solid var(--line); }
+ .brand { margin-bottom:8px; }
+ .side-label,.aside-bottom { display:none; }
+ aside select { max-width:none; }
+ nav { display:flex; overflow:auto; margin-top:6px; }
+ nav button { white-space:nowrap; padding:9px; }
+ main { padding:0 13px 20px; }
+ header { align-items:flex-start; padding:14px 0; flex-direction:column; }
+ .intro { padding:25px 3px; }
+ h1 { font-size:calc(34px * var(--site-heading-scale)); }
+ .sigill { width:78px; height:78px; font-size:42px; }
+ .resources { grid-template-columns:1fr; }
+ .stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .stat:nth-child(2) { border-right:0; }
+ .stat:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+ .attributes,.grid-two,.form-grid { grid-template-columns:1fr; }
+ .profile { display:block; }
+ .portrait { min-height:120px; border-right:0; border-bottom:1px solid var(--line); }
+ .combat-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .item-row { grid-template-columns:minmax(0,1fr) 65px 75px 38px; gap:5px; }
+ .skill-row { grid-template-columns:minmax(0,1fr) 54px 55px 45px; gap:4px; font-size:11px; }
+ footer { flex-direction:column; }
+}
+@media print {
+ aside,.header-actions,.page-heading button,footer button,.no-print { display:none!important; }
+ .app { display:block; background:white; color:#111; }
+ body,main { background:white; color:#111; padding:0; }
+ .card,.stats,.combat-stat { background:white; color:#111; border-color:#aaa; break-inside:avoid; }
+ input,select,textarea { color:#111; background:white; border-color:#aaa; }
+ .muted,label,.page-heading p,small { color:#444; }
+}
+</style>
+</head>
+<body>
 <div class="app">
   <aside>
     <div class="brand"><div class="brand-mark">✦</div><div class="brand-text">CRÔNICAS DE<strong>ARTON</strong></div></div>
@@ -29,6 +198,166 @@
     <footer><span>CRÔNICAS DE ARTON · FICHA DE PERSONAGEM</span><span>Faça backups regularmente para não perder suas fichas.</span><button id="deleteCharacter">Excluir ficha</button></footer>
   </main>
 </div>
-<script src="app.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const ATTRS = ["Força","Destreza","Constituição","Inteligência","Sabedoria","Carisma"];
+const CLASS_PROGRESSION = {
+ "Arcanista":{hpFirstLevel:8,hpPerLevel:2,pmPerLevel:6}, "Bárbaro":{hpFirstLevel:24,hpPerLevel:6,pmPerLevel:3},
+ "Bardo":{hpFirstLevel:12,hpPerLevel:3,pmPerLevel:4}, "Bucaneiro":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:3},
+ "Caçador":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:4}, "Cavaleiro":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3},
+ "Clérigo":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:5}, "Druida":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:4},
+ "Guerreiro":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3}, "Inventor":{hpFirstLevel:12,hpPerLevel:3,pmPerLevel:4},
+ "Ladino":{hpFirstLevel:12,hpPerLevel:3,pmPerLevel:4}, "Lutador":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:3},
+ "Nobre":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:4}, "Paladino":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3}
+};
+const SKILLS = [
+ ["Acrobacia","Des"],["Adestramento","Car"],["Atletismo","For"],["Atuação","Car"],["Cavalgar","Des"],["Conhecimento","Int"],["Cura","Sab"],["Diplomacia","Car"],["Enganação","Car"],["Fortitude","Con"],["Furtividade","Des"],["Guerra","Int"],["Iniciativa","Des"],["Intimidação","Car"],["Intuição","Sab"],["Investigação","Int"],["Jogatina","Car"],["Ladinagem","Des"],["Luta","For"],["Misticismo","Int"],["Nobreza","Int"],["Ofício","Int"],["Percepção","Sab"],["Pilotagem","Des"],["Pontaria","Des"],["Reflexos","Des"],["Religião","Sab"],["Sobrevivência","Sab"],["Vontade","Sab"]
+];
+const TABS = {
+ overview:["Visão geral","A visão rápida do seu aventureiro."],
+ attributes:["Atributos e perícias","Ajuste atributos, treinamento e bônus."],
+ combat:["Combate","Recursos, defesa, ataques e testes rápidos."],
+ inventory:["Inventário","Equipamentos, carga e tesouros."],
+ notes:["Notas e história","Detalhes que fazem seu herói ser único."]
+};
+const fresh = () => ({
+ id: crypto.randomUUID(), name:"Novo aventureiro", player:"", race:"", className:"", origin:"", deity:"", level:1, xp:0,
+ attrs:{Força:2,Destreza:1,Constituição:2,Inteligência:0,Sabedoria:0,Carisma:0},
+ hp:18,hpMax:18,hpFirstLevel:16,hpPerLevel:4,hpBonus:0,pm:5,pmMax:5,pmPerLevel:5,pmBonus:0,defenseBonus:0,armorPenalty:0,speed:9,initiativeBonus:0,
+ skills:{}, attacks:[{name:"Ataque principal",bonus:0,damage:"1d6",crit:"x2"}], items:[{name:"Equipamento inicial",qty:1,weight:0}], money:0,
+ notes:"", appearance:"", personality:"", goals:""
+});
+let db = {characters:[fresh()],active:null}, c, currentTab="overview";
+try { const stored=JSON.parse(localStorage.getItem("cronicas-arton-v1")); if(stored?.characters?.length) db=stored; } catch(e) {}
+if(!db.active) db.active=db.characters[0].id;
+c=db.characters.find(x=>x.id===db.active)||db.characters[0];
+function esc(v){return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+function n(v,min=-999,max=99999){v=Number(v);return Math.max(min,Math.min(max,Number.isFinite(v)?v:min));}
+function signed(v){return v>=0?"+"+v:String(v);}
+function mod(a){return n(c.attrs[a]??0,-20,30);}
+function trainBonus(){return c.level<=6?2:c.level<=14?4:6;}
+function skillTotal(name,attr){const s=c.skills[name]||{};const armorPenalty=["Acrobacia","Furtividade","Ladinagem","Atletismo"].includes(name)?n(c.armorPenalty,-99,0):0;return Math.floor(n(c.level,1,20)/2)+mod(attr)+(s.trained?trainBonus():0)+n(s.extra||0,-99,99)+armorPenalty;}
+function derived(){
+ const level=n(c.level,1,20);
+ const con=mod("Constituição");
+ const hpMax=Math.max(1,n(c.hpFirstLevel,0)+con)+Math.max(0,level-1)*Math.max(1,n(c.hpPerLevel,0)+con)+n(c.hpBonus,0);
+ const pmMax=n(c.pmPerLevel,0)*level+n(c.pmBonus,0);
+ const defense=10+mod("Destreza")+n(c.defenseBonus, -99,999);
+ return {hpMax:Math.max(1,hpMax),pmMax:Math.max(0,pmMax),defense,initiative:skillTotal("Iniciativa","Des")};
+}
+function applyClassProgression(className){const p=CLASS_PROGRESSION[className];if(!p)return false;Object.assign(c,p);return true;}
+function save(){
+ try{localStorage.setItem("cronicas-arton-v1",JSON.stringify(db));$("#saveStatus").textContent="Salvo neste navegador";}
+ catch(e){$("#saveStatus").textContent="Falha ao salvar — exporte o backup";}
+}
+function toast(msg){$("#saveStatus").textContent=msg;setTimeout(()=>{$("#saveStatus").textContent="Salvo neste navegador"},2400);}
+function syncSelect(){
+ $("#characterSelect").innerHTML=db.characters.map(x=>`<option value="${esc(x.id)}" ${x.id===c.id?"selected":""}>${esc(x.name||"Sem nome")}</option>`).join("");
+}
+function field(label,key,value,type="text",wide=false,placeholder=""){
+ return `<label class="${wide?"wide":""}">${label}<input data-field="${key}" type="${type}" value="${esc(value??"")}" placeholder="${esc(placeholder)}"></label>`;
+}
+function selectField(label,key,value,options){
+ return `<label>${label}<select id="${key}" data-field="${key}">${options.map(o=>`<option ${o===value?"selected":""}>${esc(o)}</option>`).join("")}</select></label>`;
+}
+function card(title,body,meta=""){return `<section class="card"><div class="card-title"><h3>${title}</h3><small>${meta}</small></div>${body}</section>`;}
+function identityFields(){
+ return `<div class="form-grid">
+ ${field("Nome do personagem","name",c.name)}
+ ${field("Nome do jogador","player",c.player)}
+ ${field("Raça","race",c.race,"text",false,"Ex.: Humano")}
+ <label>Classe<select data-field="className"><option value="" ${!c.className?"selected":""}>Escolha uma classe</option>${Object.keys(CLASS_PROGRESSION).map(name=>`<option value="${esc(name)}" ${c.className===name?"selected":""}>${esc(name)}</option>`).join("")}</select></label>
+ ${field("Origem","origin",c.origin)}
+ ${field("Divindade","deity",c.deity)}
+ ${field("Nível","level",c.level,"number")}
+ ${field("Experiência","xp",c.xp,"number")}
+ </div>`;
+}
+function resource(label,key,maxKey,color){
+ const calc=derived(), max=maxKey==="hpMax"?calc.hpMax:maxKey==="pmMax"?calc.pmMax:n(c[maxKey],0,99999), val=n(c[key],0,max||99999), pct=max?Math.min(100,val/max*100):0; c[key]=val;
+ return `<section class="card resource"><div class="overline">${label}</div><strong>${val} <small>/ ${max}</small></strong><div class="bar"><i style="width:${pct}%;background:${color}"></i></div><div class="resource-controls"><button data-adjust="${key}" data-delta="-1">−</button><input data-field="${key}" type="number" value="${val}" aria-label="${label} atual"><button data-adjust="${key}" data-delta="1">+</button><small>ATUAL</small></div></section>`;
+}
+function attrBlock(){
+ return `<div class="attr-list">${ATTRS.map(a=>`<div class="attr"><span class="attr-name">${a}</span><input type="number" data-attr="${a}" value="${esc(c.attrs[a]??0)}" aria-label="${a}"><span class="modifier">${signed(mod(a))}</span></div>`).join("")}</div>`;
+}
+function overview(){
+ const d=derived();
+ return `<div class="dashboard">
+ <section class="card profile"><div class="portrait">✦</div><div class="profile-body"><span class="tag">${esc(c.className||"Classe a definir")} · Nível ${n(c.level,1,20)}</span><h3>${esc(c.name)}</h3><p>${esc([c.race,c.origin].filter(Boolean).join(" · ")||"Raça e origem a definir")}</p><div class="details">
+ <div class="detail"><span>Jogador</span><b>${esc(c.player||"Não informado")}</b></div><div class="detail"><span>Divindade</span><b>${esc(c.deity||"Nenhuma")}</b></div><div class="detail"><span>Experiência</span><b>${n(c.xp,0)}</b></div><div class="detail"><span>Deslocamento</span><b>${n(c.speed,0)} m</b></div>
+ </div></div></section>
+ <div class="right-stack">
+ <div class="resources">${resource("PONTOS DE VIDA","hp","hpMax","#9d4740")}${resource("PONTOS DE MANA","pm","pmMax","#6c8c9b")}${`<section class="card resource"><div class="overline">DEFESA</div><strong>${d.defense}</strong><div class="notice">10 + Destreza + outros bônus</div><div class="resource-controls"><button data-adjust="defenseBonus" data-delta="-1">−</button><input data-field="defenseBonus" type="number" value="${n(c.defenseBonus)}" aria-label="Outros bônus de Defesa"><button data-adjust="defenseBonus" data-delta="1">+</button><small>BÔNUS</small></div></section>`}</div>
+ <div class="stats"><div class="stat"><span>Nível</span><strong>${n(c.level,1,20)}</strong></div><div class="stat"><span>Treinamento</span><strong>+${trainBonus()}</strong></div><div class="stat"><span>Iniciativa</span><strong>${signed(skillTotal("Iniciativa","Des")+n(c.initiativeBonus))}</strong></div><div class="stat"><span>Perícias</span><strong>${Object.values(c.skills).filter(s=>s.trained).length}</strong></div></div>
+ ${card("Atributos",`<div class="attributes">${attrBlock()}<div><p class="notice">No Tormenta20, os atributos usam valores diretos: 0 representa a média humana. Os totais de perícia usam metade do nível, atributo-chave e bônus de treinamento quando aplicável.</p><button class="primary" data-goto="attributes">Editar perícias ↗</button></div></div>`)}
+ </div></div>`;
+}
+function attributesPage(){
+ const rows=SKILLS.map(([name,a])=>{const s=c.skills[name]||{};return `<div class="skill-row"><span>${name} <small>(${a})</small></span><label class="trained"><input type="checkbox" data-trained="${name}" ${s.trained?"checked":""}>Treinado</label><input type="number" data-skill-extra="${name}" value="${n(s.extra||0)}" aria-label="Bônus extra ${name}"><span class="total">${signed(skillTotal(name,a))}</span></div>`}).join("");
+ return `<div class="grid-two">${card("Atributos",`<div class="attributes">${attrBlock()}</div>`)}${card("Progressão e ajustes",`<div class="form-grid">${field("Nível","level",c.level,"number")}${field("PV base no 1º nível","hpFirstLevel",c.hpFirstLevel,"number")}${field("PV por nível seguinte","hpPerLevel",c.hpPerLevel,"number")}${field("PM por nível","pmPerLevel",c.pmPerLevel,"number")}${field("Bônus fixo de PV","hpBonus",c.hpBonus||0,"number")}${field("Bônus fixo de PM","pmBonus",c.pmBonus||0,"number")}${field("Penalidade de armadura (número negativo)","armorPenalty",c.armorPenalty||0,"number")}${field("Bônus de Defesa","defenseBonus",c.defenseBonus,"number")}${field("Deslocamento (m)","speed",c.speed,"number")}${field("Bônus de Iniciativa","initiativeBonus",c.initiativeBonus,"number")}</div><p class="notice">PV máximos: PV base do 1º nível + Constituição; níveis seguintes: PV base por nível + Constituição, com mínimo de 1 PV ganho por nível, mais bônus fixos. PM máximos = PM por nível × nível + bônus fixos. Selecione a classe na identidade para preencher os valores-base automaticamente. Multiclasse e benefícios especiais ainda exigem ajuste manual.</p>`)}</div>
+ ${card("Perícias",`<div class="skill-row skill-head"><span>Perícia / atributo-chave</span><span>Treinamento</span><span>Bônus extra</span><span>Total</span></div><div class="skills">${rows}</div>`,"Metade do nível + atributo + treinamento + extras")}`;
+}
+function combatPage(){
+ const d=derived();
+ return `<div class="combat-stats"><div class="combat-stat"><label>DEFESA TOTAL</label><input readonly value="${d.defense}"></div><div class="combat-stat"><label>INICIATIVA (PERÍCIA)</label><input readonly value="${signed(skillTotal("Iniciativa","Des")+n(c.initiativeBonus))}"></div><div class="combat-stat"><label>DESLOCAMENTO (m)</label><input type="number" data-field="speed" value="${n(c.speed)}"></div></div>
+ <div class="grid-two">${card("Recursos de combate",`${resource("PONTOS DE VIDA","hp","hpMax","#9d4740")}${resource("PONTOS DE MANA","pm","pmMax","#6c8c9b")}<p class="notice">Os máximos calculados dependem dos parâmetros de PV/PM por nível. Os valores atuais podem ser ajustados durante a sessão.</p>`)}
+ ${card("Rolagem rápida",`<div class="form-grid">${selectField("Tipo de teste","rollSkill","Atletismo",SKILLS.map(s=>s[0]))}<label>Dificuldade (opcional)<input id="dc" type="number" placeholder="Ex.: 15"></label></div><p class="roll-result" id="rollResult">1d20 + modificador</p><button class="primary" id="rollBtn">Rolar teste</button><div class="notice" id="rollExplain">Role um d20 e some o total da perícia selecionada.</div>`)}</div>
+ ${card("Ataques",`<div class="notice">Registre seus ataques e consulte os bônus rapidamente. Os campos são editáveis nesta primeira versão.</div><div id="attacks">${c.attacks.map((a,i)=>`<div class="item-row"><label>Nome<input data-attack="${i}" data-akey="name" value="${esc(a.name)}"></label><label>Bônus<input type="number" data-attack="${i}" data-akey="bonus" value="${n(a.bonus)}"></label><label>Dano<input data-attack="${i}" data-akey="damage" value="${esc(a.damage)}"></label><button data-remove-attack="${i}" aria-label="Excluir ataque">×</button></div>`).join("")}</div><button id="addAttack">＋ Adicionar ataque</button>`)}`;
+}
+function inventoryPage(){
+ const items=c.items||[], total=items.reduce((sum,x)=>sum+n(x.qty,0)*n(x.weight,0),0);
+ return `<div class="grid-two">${card("Equipamento e itens",`<div class="item-row"><label>Item<input id="newItemName" placeholder="Ex.: Poção de cura"></label><label>Qtd.<input id="newItemQty" type="number" min="1" value="1"></label><label>Peso (kg)<input id="newItemWeight" type="number" min="0" step=".1" value="0"></label><button id="addItem">＋</button></div><div class="item-list">${items.map((it,i)=>`<div class="item"><div><strong>${esc(it.name)}</strong><small>${n(it.qty,0)} un. · ${n(it.weight,0)} kg cada</small></div><b>${n(it.qty,0)*n(it.weight,0)} kg</b><button data-remove-item="${i}">Remover</button></div>`).join("")||`<p class="notice">Seu inventário está vazio.</p>`}</div>`)}
+ ${card("Tesouro",`<label>Dinheiro (TO / valor total)<input type="number" data-field="money" value="${n(c.money,0)}"></label><div class="stats" style="margin-top:14px"><div class="stat"><span>Itens</span><strong>${items.length}</strong></div><div class="stat"><span>Peso total</span><strong>${total.toFixed(1)} kg</strong></div></div><p class="notice">O limite de carga será implementado após definirmos os parâmetros completos de equipamento e capacidade.</p>`)}</div>`;
+}
+function notesPage(){
+ return `<div class="grid-two">${card("História do personagem",`<div class="form-grid">${field("Aparência","appearance",c.appearance,"text",true,"Como o herói se apresenta?")}<label class="wide">Personalidade<textarea data-field="personality">${esc(c.personality)}</textarea></label><label class="wide">Objetivos e motivações<textarea data-field="goals">${esc(c.goals)}</textarea></label></div>`)}${card("Anotações da campanha",`<label>Notas<textarea data-field="notes">${esc(c.notes)}</textarea></label><p class="notice">Dica: exporte um backup JSON depois de mudanças importantes.</p>`)}</div>`;
+}
+function render(){
+ syncSelect();
+ $("#recordCode").textContent="AR-"+String(db.characters.indexOf(c)+1).padStart(3,"0");
+ $("#breadcrumb").textContent=TABS[currentTab][0].toUpperCase();
+ $("#pageTitle").textContent=TABS[currentTab][0];
+ $("#pageSubtitle").textContent=TABS[currentTab][1];
+ $("#editIdentity").classList.toggle("hidden",currentTab!=="overview");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===currentTab));
+ const views={overview,attributes:attributesPage,combat:combatPage,inventory:inventoryPage,notes:notesPage};
+ $("#view").innerHTML=views[currentTab]();
+ bindDynamic();
+ save();
+}
+function bindDynamic(){
+ document.querySelectorAll("[data-field]").forEach(el=>el.addEventListener("change",()=>{
+  const key=el.dataset.field, val=el.type==="number"?n(el.value,-999,99999):el.value;
+  c[key]=val;
+  if(key==="level") c.level=n(val,1,20);
+  render();
+ }));
+ document.querySelectorAll("[data-attr]").forEach(el=>el.addEventListener("change",()=>{c.attrs[el.dataset.attr]=n(el.value,-10,30);render();}));
+ document.querySelectorAll("[data-trained]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.trained;c.skills[name]=c.skills[name]||{};c.skills[name].trained=el.checked;render();}));
+ document.querySelectorAll("[data-skill-extra]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.skillExtra;c.skills[name]=c.skills[name]||{};c.skills[name].extra=n(el.value,-99,99);render();}));
+ document.querySelectorAll("[data-adjust]").forEach(el=>el.addEventListener("click",()=>{const key=el.dataset.adjust;c[key]=n(c[key],-999,99999)+n(el.dataset.delta);render();}));
+ document.querySelectorAll("[data-goto]").forEach(el=>el.addEventListener("click",()=>{currentTab=el.dataset.goto;render();}));
+ document.querySelectorAll("[data-remove-item]").forEach(el=>el.addEventListener("click",()=>{c.items.splice(n(el.dataset.removeItem,0),1);render();}));
+ document.querySelectorAll("[data-remove-attack]").forEach(el=>el.addEventListener("click",()=>{c.attacks.splice(n(el.dataset.removeAttack,0),1);render();}));
+ document.querySelectorAll("[data-attack]").forEach(el=>el.addEventListener("change",()=>{const a=c.attacks[n(el.dataset.attack,0)];a[el.dataset.akey]=el.type==="number"?n(el.value):el.value;save();}));
+ $("#addItem")?.addEventListener("click",()=>{const name=$("#newItemName").value.trim();if(!name)return; c.items.push({name,qty:n($("#newItemQty").value,1,999),weight:n($("#newItemWeight").value,0,999)});render();});
+ $("#addAttack")?.addEventListener("click",()=>{c.attacks.push({name:"Novo ataque",bonus:0,damage:"1d6",crit:"x2"});render();});
+ $("#rollBtn")?.addEventListener("click",()=>{
+   const skill=$("#rollSkill").value, def=SKILLS.find(x=>x[0]===skill), total=skillTotal(skill,def[1]), die=1+Math.floor(Math.random()*20), result=die+total, dc=$("#dc").value;
+   $("#rollResult").textContent=`${die} ${total>=0?"+":""}${total} = ${result}`;
+   $("#rollExplain").textContent=dc?`CD ${dc}: ${result>=n(dc)?"Sucesso":"Falha"} (resultado natural ${die}).`:`Resultado do teste de ${skill}.`;
+ });
+}
+$("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if(b){currentTab=b.dataset.tab;render();}});
+$("#characterSelect").addEventListener("change",()=>{c=db.characters.find(x=>x.id===$("#characterSelect").value)||db.characters[0];currentTab="overview";render();});
+$("#newCharacter").addEventListener("click",()=>{const x=fresh();x.name="Novo aventureiro "+(db.characters.length+1);db.characters.push(x);db.active=x.id;c=x;currentTab="overview";render();});
+$("#deleteCharacter").addEventListener("click",()=>{if(db.characters.length===1){alert("Mantenha ao menos uma ficha no arquivo.");return;}if(confirm(`Excluir a ficha de ${c.name}?`)){db.characters=db.characters.filter(x=>x.id!==c.id);c=db.characters[0];db.active=c.id;currentTab="overview";render();}});
+$("#editIdentity").addEventListener("click",()=>{const html=identityFields();const dlg=document.createElement("dialog");dlg.style.cssText="background:#191a16;color:#eee8db;border:1px solid #c7a66a;border-radius:8px;padding:24px;width:min(600px,90vw)";dlg.innerHTML=`<form><h2>Identidade do aventureiro</h2>${html}<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button type="button" id="cancelIdentity">Cancelar</button><button type="button" class="primary" id="saveIdentity">Salvar identidade</button></div></form>`;document.body.appendChild(dlg);dlg.showModal();dlg.querySelector("#cancelIdentity").addEventListener("click",()=>{dlg.close();dlg.remove();});dlg.querySelector("#saveIdentity").addEventListener("click",()=>{dlg.querySelectorAll("[data-field]").forEach(el=>{c[el.dataset.field]=el.type==="number"?n(el.value):el.value;});if(c.className)applyClassProgression(c.className);c.level=n(c.level,1,20);dlg.close();dlg.remove();render();toast("Identidade salva");});});
+$("#exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({format:"cronicas-arton-backup",version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cronicas-arton-backup.json";a.click();URL.revokeObjectURL(a.href);toast("Backup exportado");});
+$("#importBtn").addEventListener("click",()=>$("#importFile").click());
+$("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text()), imported=obj.data||obj;if(!Array.isArray(imported.characters)||!imported.characters.length)throw new Error("Arquivo sem fichas válidas");if(confirm("Importar este backup e substituir as fichas atuais neste navegador?")){db=imported;c=db.characters.find(x=>x.id===db.active)||db.characters[0];currentTab="overview";render();toast("Backup importado");}}catch(err){alert("Não foi possível importar: "+err.message);}e.target.value="";});
+$("#printBtn").addEventListener("click",()=>window.print());
+render();
+</script>
 </body>
 </html>
