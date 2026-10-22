@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR" data-sites-preview-theme="custom">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crônicas de Arton — Fichas Tormenta20</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="brand-mark">✦</div><div class="brand-text">CRÔNICAS DE<strong>ARTON</strong></div></div>
+    <div class="side-label">SEU GRIMÓRIO DE HERÓIS</div>
+    <select id="characterSelect" aria-label="Escolher personagem"></select>
+    <button id="newCharacter">＋ Nova ficha</button>
+    <nav id="nav">
+      <button class="active" data-tab="overview"><span>◈</span>Visão geral</button>
+      <button data-tab="attributes"><span>✧</span>Atributos e perícias</button>
+      <button data-tab="combat"><span>⚔</span>Combate</button>
+      <button data-tab="inventory"><span>◇</span>Inventário</button>
+      <button data-tab="notes"><span>▤</span>Notas e história</button>
+    </nav>
+    <div class="aside-bottom"><div><i class="save-dot"></i><span id="saveStatus">Salvo neste navegador</span></div><p>TORMENTA20<br>Projeto de fã, não oficial.<br>Os dados ficam neste navegador.</p></div>
+  </aside>
+  <main>
+    <header><div>CRÔNICAS / <b id="breadcrumb">VISÃO GERAL</b></div><div class="header-actions"><button id="exportBtn">↓ Exportar backup</button><button id="importBtn">↑ Importar</button><input id="importFile" type="file" accept=".json,application/json" hidden><button id="printBtn">Imprimir / PDF</button></div></header>
+    <section class="intro"><div><div class="eyebrow">REGISTRO DE AVENTUREIRO · <span id="recordCode">AR-001</span></div><h1>Forje seu destino<br>em <em>Arton.</em></h1><p>Uma ficha viva para histórias extraordinárias.</p></div><div class="sigill" aria-hidden="true">✦</div></section>
+    <div class="page-heading"><div><h2 id="pageTitle">Visão geral</h2><p id="pageSubtitle">A jornada começa com uma única decisão.</p></div><button class="primary" id="editIdentity">Editar identidade ↗</button></div>
+    <div class="view" id="view"></div>
+    <footer><span>CRÔNICAS DE ARTON · FICHA DE PERSONAGEM</span><span>Faça backups regularmente para não perder suas fichas.</span><button id="deleteCharacter">Excluir ficha</button></footer>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
