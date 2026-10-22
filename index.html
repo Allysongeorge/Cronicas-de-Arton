@@ -207,7 +207,7 @@ const CLASS_PROGRESSION = {
  "Caçador":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:4}, "Cavaleiro":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3},
  "Clérigo":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:5}, "Druida":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:4},
  "Guerreiro":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3}, "Inventor":{hpFirstLevel:12,hpPerLevel:3,pmPerLevel:4},
- "Ladino":{hpFirstLevel:12,hpPerLevel:3,pmPerLevel:4}, "Lutador":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:3},
+ "Ladino":{hpFirstLevel:12,hpPerLevel:3,pmPerLevel:4}, "Lutador":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3},
  "Nobre":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:4}, "Paladino":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3}
 };
 const SKILLS = [
@@ -236,7 +236,7 @@ function n(v,min=-999,max=99999){v=Number(v);return Math.max(min,Math.min(max,Nu
 function signed(v){return v>=0?"+"+v:String(v);}
 function mod(a){return n(c.attrs[a]??0,-20,30);}
 function trainBonus(){return c.level<=6?2:c.level<=14?4:6;}
-function skillTotal(name,attr){const s=c.skills[name]||{};const armorPenalty=["Acrobacia","Furtividade","Ladinagem","Atletismo"].includes(name)?n(c.armorPenalty,-99,0):0;return Math.floor(n(c.level,1,20)/2)+mod(attr)+(s.trained?trainBonus():0)+n(s.extra||0,-99,99)+armorPenalty;}
+function skillTotal(name,attr){const s=c.skills[name]||{};const armorPenalty=["Acrobacia","Furtividade","Ladinagem"].includes(name)?n(c.armorPenalty,-99,0):0;return Math.floor(n(c.level,1,20)/2)+mod(attr)+(s.trained?trainBonus():0)+n(s.extra||0,-99,99)+armorPenalty;}
 function derived(){
  const level=n(c.level,1,20);
  const con=mod("Constituição");
@@ -245,6 +245,7 @@ function derived(){
  const defense=10+mod("Destreza")+n(c.defenseBonus, -99,999);
  return {hpMax:Math.max(1,hpMax),pmMax:Math.max(0,pmMax),defense,initiative:skillTotal("Iniciativa","Des")};
 }
+function updateLevel(newLevel){const oldLevel=n(c.level,1,20);c.level=n(newLevel,1,20);const d=derived();if(c.level>oldLevel){const gainedLevels=c.level-oldLevel;c.hp=n(c.hp,0,99999)+gainedLevels*Math.max(1,n(c.hpPerLevel,0)+mod("Constituição"));c.pm=n(c.pm,0,99999)+gainedLevels*n(c.pmPerLevel,0);}c.hp=n(c.hp,0,d.hpMax);c.pm=n(c.pm,0,d.pmMax);}
 function applyClassProgression(className){const p=CLASS_PROGRESSION[className];if(!p)return false;Object.assign(c,p);return true;}
 function save(){
  try{localStorage.setItem("cronicas-arton-v1",JSON.stringify(db));$("#saveStatus").textContent="Salvo neste navegador";}
@@ -294,7 +295,7 @@ function overview(){
 }
 function attributesPage(){
  const rows=SKILLS.map(([name,a])=>{const s=c.skills[name]||{};return `<div class="skill-row"><span>${name} <small>(${a})</small></span><label class="trained"><input type="checkbox" data-trained="${name}" ${s.trained?"checked":""}>Treinado</label><input type="number" data-skill-extra="${name}" value="${n(s.extra||0)}" aria-label="Bônus extra ${name}"><span class="total">${signed(skillTotal(name,a))}</span></div>`}).join("");
- return `<div class="grid-two">${card("Atributos",`<div class="attributes">${attrBlock()}</div>`)}${card("Progressão e ajustes",`<div class="form-grid">${field("Nível","level",c.level,"number")}${field("PV base no 1º nível","hpFirstLevel",c.hpFirstLevel,"number")}${field("PV por nível seguinte","hpPerLevel",c.hpPerLevel,"number")}${field("PM por nível","pmPerLevel",c.pmPerLevel,"number")}${field("Bônus fixo de PV","hpBonus",c.hpBonus||0,"number")}${field("Bônus fixo de PM","pmBonus",c.pmBonus||0,"number")}${field("Penalidade de armadura (número negativo)","armorPenalty",c.armorPenalty||0,"number")}${field("Bônus de Defesa","defenseBonus",c.defenseBonus,"number")}${field("Deslocamento (m)","speed",c.speed,"number")}${field("Bônus de Iniciativa","initiativeBonus",c.initiativeBonus,"number")}</div><p class="notice">PV máximos: PV base do 1º nível + Constituição; níveis seguintes: PV base por nível + Constituição, com mínimo de 1 PV ganho por nível, mais bônus fixos. PM máximos = PM por nível × nível + bônus fixos. Selecione a classe na identidade para preencher os valores-base automaticamente. Multiclasse e benefícios especiais ainda exigem ajuste manual.</p>`)}</div>
+ return `<div class="grid-two">${card("Atributos",`<div class="attributes">${attrBlock()}</div>`)}${card("Progressão e ajustes",`<div class="form-grid">${field("Nível","level",c.level,"number")}${field("PV base no 1º nível","hpFirstLevel",c.hpFirstLevel,"number")}${field("PV por nível seguinte","hpPerLevel",c.hpPerLevel,"number")}${field("PM por nível","pmPerLevel",c.pmPerLevel,"number")}${field("Bônus fixo de PV","hpBonus",c.hpBonus||0,"number")}${field("Bônus fixo de PM","pmBonus",c.pmBonus||0,"number")}${field("Penalidade de armadura (número negativo)","armorPenalty",c.armorPenalty||0,"number")}${field("Bônus de Defesa","defenseBonus",c.defenseBonus,"number")}${field("Deslocamento (m)","speed",c.speed,"number")}${field("Bônus de Iniciativa","initiativeBonus",c.initiativeBonus,"number")}</div><p class="notice">PV máximos: PV base do 1º nível + Constituição; níveis seguintes: PV base por nível + Constituição, com mínimo de 1 PV ganho por nível, mais bônus fixos. PM máximos = PM por nível × nível + bônus fixos. A penalidade de armadura é aplicada aqui a Acrobacia, Furtividade e Ladinagem; em Atletismo, aplica-se apenas a testes de natação. Selecione a classe na identidade para preencher os valores-base automaticamente. Multiclasse e benefícios especiais ainda exigem ajuste manual.</p>`)}</div>
  ${card("Perícias",`<div class="skill-row skill-head"><span>Perícia / atributo-chave</span><span>Treinamento</span><span>Bônus extra</span><span>Total</span></div><div class="skills">${rows}</div>`,"Metade do nível + atributo + treinamento + extras")}`;
 }
 function combatPage(){
@@ -328,11 +329,10 @@ function render(){
 function bindDynamic(){
  document.querySelectorAll("[data-field]").forEach(el=>el.addEventListener("change",()=>{
   const key=el.dataset.field, val=el.type==="number"?n(el.value,-999,99999):el.value;
-  c[key]=val;
-  if(key==="level") c.level=n(val,1,20);
+  if(key==="level") updateLevel(val); else c[key]=val;
   render();
  }));
- document.querySelectorAll("[data-attr]").forEach(el=>el.addEventListener("change",()=>{c.attrs[el.dataset.attr]=n(el.value,-10,30);render();}));
+ document.querySelectorAll("[data-attr]").forEach(el=>el.addEventListener("change",()=>{const attr=el.dataset.attr,oldMax=derived().hpMax;c.attrs[attr]=n(el.value,-10,30);if(attr==="Constituição"){const newMax=derived().hpMax;c.hp=n(c.hp,0,99999)+(newMax-oldMax);c.hp=n(c.hp,0,newMax);}render();}));
  document.querySelectorAll("[data-trained]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.trained;c.skills[name]=c.skills[name]||{};c.skills[name].trained=el.checked;render();}));
  document.querySelectorAll("[data-skill-extra]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.skillExtra;c.skills[name]=c.skills[name]||{};c.skills[name].extra=n(el.value,-99,99);render();}));
  document.querySelectorAll("[data-adjust]").forEach(el=>el.addEventListener("click",()=>{const key=el.dataset.adjust;c[key]=n(c[key],-999,99999)+n(el.dataset.delta);render();}));
@@ -352,7 +352,7 @@ $("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if
 $("#characterSelect").addEventListener("change",()=>{c=db.characters.find(x=>x.id===$("#characterSelect").value)||db.characters[0];currentTab="overview";render();});
 $("#newCharacter").addEventListener("click",()=>{const x=fresh();x.name="Novo aventureiro "+(db.characters.length+1);db.characters.push(x);db.active=x.id;c=x;currentTab="overview";render();});
 $("#deleteCharacter").addEventListener("click",()=>{if(db.characters.length===1){alert("Mantenha ao menos uma ficha no arquivo.");return;}if(confirm(`Excluir a ficha de ${c.name}?`)){db.characters=db.characters.filter(x=>x.id!==c.id);c=db.characters[0];db.active=c.id;currentTab="overview";render();}});
-$("#editIdentity").addEventListener("click",()=>{const html=identityFields();const dlg=document.createElement("dialog");dlg.style.cssText="background:#191a16;color:#eee8db;border:1px solid #c7a66a;border-radius:8px;padding:24px;width:min(600px,90vw)";dlg.innerHTML=`<form><h2>Identidade do aventureiro</h2>${html}<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button type="button" id="cancelIdentity">Cancelar</button><button type="button" class="primary" id="saveIdentity">Salvar identidade</button></div></form>`;document.body.appendChild(dlg);dlg.showModal();dlg.querySelector("#cancelIdentity").addEventListener("click",()=>{dlg.close();dlg.remove();});dlg.querySelector("#saveIdentity").addEventListener("click",()=>{dlg.querySelectorAll("[data-field]").forEach(el=>{c[el.dataset.field]=el.type==="number"?n(el.value):el.value;});if(c.className)applyClassProgression(c.className);c.level=n(c.level,1,20);dlg.close();dlg.remove();render();toast("Identidade salva");});});
+$("#editIdentity").addEventListener("click",()=>{const html=identityFields();const dlg=document.createElement("dialog");dlg.style.cssText="background:#191a16;color:#eee8db;border:1px solid #c7a66a;border-radius:8px;padding:24px;width:min(600px,90vw)";dlg.innerHTML=`<form><h2>Identidade do aventureiro</h2>${html}<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button type="button" id="cancelIdentity">Cancelar</button><button type="button" class="primary" id="saveIdentity">Salvar identidade</button></div></form>`;document.body.appendChild(dlg);dlg.showModal();dlg.querySelector("#cancelIdentity").addEventListener("click",()=>{dlg.close();dlg.remove();});dlg.querySelector("#saveIdentity").addEventListener("click",()=>{const oldLevel=n(c.level,1,20);dlg.querySelectorAll("[data-field]").forEach(el=>{if(el.dataset.field!=="level")c[el.dataset.field]=el.type==="number"?n(el.value):el.value;});if(c.className)applyClassProgression(c.className);updateLevel(dlg.querySelector('[data-field="level"]').value);dlg.close();dlg.remove();render();toast("Identidade salva");});});
 $("#exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({format:"cronicas-arton-backup",version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cronicas-arton-backup.json";a.click();URL.revokeObjectURL(a.href);toast("Backup exportado");});
 $("#importBtn").addEventListener("click",()=>$("#importFile").click());
 $("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text()), imported=obj.data||obj;if(!Array.isArray(imported.characters)||!imported.characters.length)throw new Error("Arquivo sem fichas válidas");if(confirm("Importar este backup e substituir as fichas atuais neste navegador?")){db=imported;c=db.characters.find(x=>x.id===db.active)||db.characters[0];currentTab="overview";render();toast("Backup importado");}}catch(err){alert("Não foi possível importar: "+err.message);}e.target.value="";});
