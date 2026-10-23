@@ -130,7 +130,17 @@ function bindDynamic(){
  document.querySelectorAll("[data-field]").forEach(el=>el.addEventListener("change",()=>{
   const key=el.dataset.field, val=el.type==="number"?n(el.value,-999,99999):el.value;
   c[key]=val;
-  if(key==="level") c.level=n(val,1,20);
+ if (key === "level") {
+  updateLevel(val);
+} else if (key === "race") {
+  const oldMax = derived().hpMax;
+  c.race = val;
+  c.raceChoices = {};
+  const newMax = derived().hpMax;
+  c.hp = n(c.hp + (newMax - oldMax), 0, newMax);
+} else {
+  c[key] = val;
+}
   render();
  }));
  document.querySelectorAll("[data-attr]").forEach(el=>el.addEventListener("change",()=>{c.attrs[el.dataset.attr]=n(el.value,-10,30);render();}));
