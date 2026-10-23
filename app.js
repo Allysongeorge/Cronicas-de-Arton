@@ -10,6 +10,20 @@ const TABS = {
  inventory:["Inventário","Equipamentos, carga e tesouros."],
  notes:["Notas e história","Detalhes que fazem seu herói ser único."]
 };
+const RACE_MODS = {
+  "Anão": {"Constituição":2,"Sabedoria":1,"Destreza":-1},
+  "Dahllan": {"Sabedoria":2,"Destreza":1,"Inteligência":-1},
+  "Elfo": {"Inteligência":2,"Destreza":1,"Constituição":-1},
+  "Goblin": {"Destreza":2,"Inteligência":1,"Carisma":-1},
+  "Golem": {"Força":2,"Constituição":1,"Carisma":-1},
+  "Hynne": {"Destreza":2,"Carisma":1,"Força":-1},
+  "Kliren": {"Inteligência":2,"Carisma":1,"Força":-1},
+  "Medusa": {"Destreza":2,"Carisma":1},
+  "Minotauro": {"Força":2,"Constituição":1,"Sabedoria":-1},
+  "Qareen": {"Carisma":2,"Inteligência":1,"Sabedoria":-1},
+  "Sílfide": {"Carisma":2,"Destreza":1,"Força":-2},
+  "Trog": {"Constituição":2,"Força":1,"Inteligência":-1}
+};
 const fresh = () => ({
  id: crypto.randomUUID(), name:"Novo aventureiro", player:"", race:"", className:"", origin:"", deity:"", level:1, xp:0,
  attrs:{Força:2,Destreza:1,Constituição:2,Inteligência:0,Sabedoria:0,Carisma:0},
