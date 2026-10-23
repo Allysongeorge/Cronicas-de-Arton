@@ -32,6 +32,22 @@ const CLASS_PROGRESSION = {
   "Nobre":{hpFirstLevel:16,hpPerLevel:4,pmPerLevel:4},
   "Paladino":{hpFirstLevel:20,hpPerLevel:5,pmPerLevel:3}
 };
+const CLASS_SKILL_RULES = {
+ "Arcanista": {required:["Misticismo","Vontade"],choose:2,options:["Conhecimento","Diplomacia","Enganação","Guerra","Iniciativa","Intimidação","Intuição","Investigação","Nobreza","Ofício","Percepção"]},
+ "Bárbaro": {required:["Fortitude","Luta"],choose:4,options:["Adestramento","Atletismo","Cavalgar","Iniciativa","Intimidação","Ofício","Percepção","Pontaria","Sobrevivência","Vontade"]},
+ "Bardo": {required:["Atuação","Reflexos"],choose:6,options:["Acrobacia","Cavalgar","Conhecimento","Diplomacia","Enganação","Furtividade","Iniciativa","Intuição","Investigação","Jogatina","Ladinagem","Luta","Misticismo","Nobreza","Percepção","Pontaria","Vontade"]},
+ "Bucaneiro": {required:["Reflexos"],alternatives:[["Luta","Pontaria"]],choose:4,options:["Acrobacia","Atletismo","Atuação","Enganação","Fortitude","Furtividade","Iniciativa","Intimidação","Jogatina","Luta","Ofício","Percepção","Pilotagem","Pontaria"]},
+ "Caçador": {required:["Sobrevivência"],alternatives:[["Luta","Pontaria"]],choose:6,options:["Adestramento","Atletismo","Cavalgar","Cura","Fortitude","Furtividade","Iniciativa","Investigação","Luta","Ofício","Percepção","Pontaria","Reflexos"]},
+ "Cavaleiro": {required:["Fortitude","Luta"],choose:2,options:["Adestramento","Atletismo","Cavalgar","Diplomacia","Guerra","Iniciativa","Intimidação","Nobreza","Percepção","Vontade"]},
+ "Clérigo": {required:["Religião","Vontade"],choose:2,options:["Conhecimento","Cura","Diplomacia","Fortitude","Iniciativa","Intuição","Luta","Misticismo","Nobreza","Ofício","Percepção"]},
+ "Druida": {required:["Sobrevivência","Vontade"],choose:4,options:["Adestramento","Atletismo","Cavalgar","Conhecimento","Cura","Fortitude","Iniciativa","Intuição","Luta","Misticismo","Ofício","Percepção","Religião"]},
+ "Guerreiro": {required:["Fortitude"],alternatives:[["Luta","Pontaria"]],choose:2,options:["Adestramento","Atletismo","Cavalgar","Guerra","Iniciativa","Intimidação","Luta","Ofício","Percepção","Pontaria","Reflexos"]},
+ "Inventor": {required:["Ofício","Vontade"],choose:4,options:["Conhecimento","Cura","Diplomacia","Fortitude","Iniciativa","Investigação","Luta","Misticismo","Ofício","Pilotagem","Percepção","Pontaria"]},
+ "Ladino": {required:["Ladinagem","Reflexos"],choose:8,options:["Acrobacia","Atletismo","Atuação","Cavalgar","Conhecimento","Diplomacia","Enganação","Furtividade","Iniciativa","Intimidação","Intuição","Investigação","Jogatina","Luta","Ofício","Percepção","Pilotagem","Pontaria"],specialist:true},
+ "Lutador": {required:["Fortitude","Luta"],choose:4,options:["Acrobacia","Adestramento","Atletismo","Enganação","Furtividade","Iniciativa","Intimidação","Ofício","Percepção","Pontaria","Reflexos"]},
+ "Nobre": {required:["Vontade"],alternatives:[["Diplomacia","Intimidação"]],choose:4,options:["Adestramento","Atuação","Cavalgar","Conhecimento","Diplomacia","Enganação","Fortitude","Guerra","Iniciativa","Intimidação","Intuição","Investigação","Jogatina","Luta","Nobreza","Ofício","Percepção","Pontaria"]},
+ "Paladino": {required:["Luta","Vontade"],choose:2,options:["Adestramento","Atletismo","Cavalgar","Cura","Diplomacia","Fortitude","Guerra","Iniciativa","Intuição","Nobreza","Percepção","Religião"]}
+};
 const SKILLS = [
  ["Acrobacia","Des"],["Adestramento","Car"],["Atletismo","For"],["Atuação","Car"],["Cavalgar","Des"],["Conhecimento","Int"],["Cura","Sab"],["Diplomacia","Car"],["Enganação","Car"],["Fortitude","Con"],["Furtividade","Des"],["Guerra","Int"],["Iniciativa","Des"],["Intimidação","Car"],["Intuição","Sab"],["Investigação","Int"],["Jogatina","Car"],["Ladinagem","Des"],["Luta","For"],["Misticismo","Int"],["Nobreza","Int"],["Ofício","Int"],["Percepção","Sab"],["Pilotagem","Des"],["Pontaria","Des"],["Reflexos","Des"],["Religião","Sab"],["Sobrevivência","Sab"],["Vontade","Sab"]
 ];
@@ -48,7 +64,7 @@ const fresh = () => ({
  baseAttrs:{Força:0,Destreza:0,Constituição:0,Inteligência:0,Sabedoria:0,Carisma:0},
  hp:16,hpMax:16,hpFirstLevel:16,hpPerLevel:4,hpBonus:0,pm:3,pmMax:3,pmPerLevel:3,pmBonus:0,
  defenseBonus:0,armorPenalty:0,athleticsSwim:false,speed:9,initiativeBonus:0,
- skills:{}, attacks:[{name:"Ataque principal",bonus:0,damage:"1d6",crit:"x2"}], items:[{name:"Equipamento inicial",qty:1,weight:0}], money:0,
+ skills:{}, classSkills:{alternatives:{},choices:[],intChoices:[],specialistChoices:[]}, attacks:[{name:"Ataque principal",bonus:0,damage:"1d6",crit:"x2"}], items:[{name:"Equipamento inicial",qty:1,weight:0}], money:0,
  notes:"", appearance:"", personality:"", goals:""
 });
 let db = {characters:[fresh()],active:null}, c, currentTab="overview";
@@ -61,6 +77,13 @@ db.characters.forEach(x=>{
  if(!x.baseAttrs)x.baseAttrs={...x.attrs};
  if(!x.raceChoices)x.raceChoices={};
  if(!x.skills)x.skills={};
+ if(!x.classSkills||typeof x.classSkills!=="object")x.classSkills={alternatives:{},choices:[],intChoices:[],specialistChoices:[]};
+ if(!x.classSkills.alternatives)x.classSkills.alternatives={};
+ if(!Array.isArray(x.classSkills.choices))x.classSkills.choices=[];
+ if(!Array.isArray(x.classSkills.intChoices))x.classSkills.intChoices=[];
+ if(!Array.isArray(x.classSkills.specialistChoices))x.classSkills.specialistChoices=[];
+ const ruleForSavedClass=CLASS_SKILL_RULES[x.className];
+ (ruleForSavedClass?.alternatives||[]).forEach((options,i)=>{if(!options.includes(x.classSkills.alternatives[i]))x.classSkills.alternatives[i]=options[0];});
  if(!Array.isArray(x.attacks))x.attacks=[];
  if(!Array.isArray(x.items))x.items=[];
  if(x.hpBonus===undefined)x.hpBonus=0;
@@ -99,11 +122,99 @@ function mod(a){
 }
 function pointTotal(){return ATTRS.reduce((total,attr)=>total+(POINT_COST[String(n(c.baseAttrs?.[attr]??c.attrs?.[attr]??0,-1,4))]??0),0);}
 function trainBonus(){return c.level<=6?2:c.level<=14?4:6;}
+function ensureClassSkills(){
+ if(!c.classSkills||typeof c.classSkills!=="object")c.classSkills={alternatives:{},choices:[],intChoices:[],specialistChoices:[]};
+ if(!c.classSkills.alternatives)c.classSkills.alternatives={};
+ if(!Array.isArray(c.classSkills.choices))c.classSkills.choices=[];
+ if(!Array.isArray(c.classSkills.intChoices))c.classSkills.intChoices=[];
+ if(!Array.isArray(c.classSkills.specialistChoices))c.classSkills.specialistChoices=[];
+ const rule=CLASS_SKILL_RULES[c.className];
+ (rule?.alternatives||[]).forEach((options,i)=>{if(!options.includes(c.classSkills.alternatives[i]))c.classSkills.alternatives[i]=options[0];});
+ return c.classSkills;
+}
+function baseClassSkillSet(){
+ const rule=CLASS_SKILL_RULES[c.className], data=ensureClassSkills();
+ const set=new Set(rule?.required||[]);
+ (rule?.alternatives||[]).forEach((options,i)=>{const chosen=data.alternatives[i];if(options.includes(chosen))set.add(chosen);});
+ return set;
+}
+function intSkillCount(){return Math.max(0,mod("Inteligência"));}
+function specialistSkillCount(){return c.className==="Ladino"?Math.max(1,mod("Inteligência")):0;}
+function normalizeClassSkills(){
+ const rule=CLASS_SKILL_RULES[c.className], data=ensureClassSkills();
+ if(!rule)return;
+ const used=baseClassSkillSet(), classChoices=[];
+ for(let i=0;i<rule.choose;i++){
+  const value=data.choices[i]||"";
+  if(value&&rule.options.includes(value)&&!used.has(value)&&!c.skills[value]?.trained){classChoices[i]=value;used.add(value);}else classChoices[i]="";
+ }
+ data.choices=classChoices;
+ const intChoices=[];
+ for(let i=0;i<intSkillCount();i++){
+  const value=data.intChoices[i]||"";
+  if(value&&SKILLS.some(([name])=>name===value)&&!used.has(value)&&!c.skills[value]?.trained){intChoices[i]=value;used.add(value);}else intChoices[i]="";
+ }
+ data.intChoices=intChoices;
+ const specialistChoices=[];
+ for(let i=0;i<specialistSkillCount();i++){
+  const value=data.specialistChoices[i]||"";
+  if(value&&SKILLS.some(([name])=>name===value)&&!used.has(value)&&!c.skills[value]?.trained){specialistChoices[i]=value;used.add(value);}else specialistChoices[i]="";
+ }
+ data.specialistChoices=specialistChoices;
+}
+function autoTrainedSkills(){
+ normalizeClassSkills();
+ const rule=CLASS_SKILL_RULES[c.className], data=ensureClassSkills(), set=baseClassSkillSet();
+ if(!rule)return set;
+ data.choices.forEach(value=>{if(value)set.add(value);});
+ data.intChoices.forEach(value=>{if(value)set.add(value);});
+ data.specialistChoices.forEach(value=>{if(value)set.add(value);});
+ return set;
+}
+function isSkillTrained(name){return !!(c.skills[name]?.trained||autoTrainedSkills().has(name));}
+function classSkillOptions(type,index){
+ const rule=CLASS_SKILL_RULES[c.className];
+ if(!rule)return [];
+ normalizeClassSkills();
+ const data=ensureClassSkills(), used=baseClassSkillSet();
+ [["class",data.choices],["int",data.intChoices],["specialist",data.specialistChoices]].forEach(([group,values])=>values.forEach((value,i)=>{if(value&&!(group===type&&i===index))used.add(value);}));
+ if(type==="alt"){
+  Object.entries(data.alternatives).forEach(([i,value])=>{if(Number(i)!==index&&value)used.add(value);});
+  const selected=data.alternatives[index];
+  return (rule.alternatives[index]||[]).filter(value=>((!used.has(value)&&!c.skills[value]?.trained)||value===selected));
+ }
+ if(type==="class"){
+  const selected=data.choices[index];
+  return rule.options.filter(value=>((!used.has(value)&&!c.skills[value]?.trained)||value===selected));
+ }
+ const list=type==="int"?data.intChoices:data.specialistChoices;
+ const selected=list[index];
+ return SKILLS.map(([name])=>name).filter(value=>((!used.has(value)&&!c.skills[value]?.trained)||value===selected));
+}
+function classTrainingCard(){
+ const rule=CLASS_SKILL_RULES[c.className];
+ if(!rule)return `<p class="notice">Escolha uma classe em <b>Editar identidade</b> para aplicar as perícias obrigatórias e selecionar as escolhas adicionais.</p>`;
+ normalizeClassSkills();
+ const data=ensureClassSkills();
+ const altHtml=(rule.alternatives||[]).map((options,i)=>{
+  const selected=data.alternatives[i]||options[0], list=[...new Set([selected,...classSkillOptions("alt",i)])].filter(Boolean);
+  return `<label>Perícia obrigatória (escolha uma)<select data-class-alt="${i}">${list.map(name=>`<option value="${esc(name)}" ${name===selected?"selected":""}>${esc(name)}</option>`).join("")}</select></label>`;
+ }).join("");
+ const makeSlots=(type,count,prefix)=>Array.from({length:count},(_,i)=>{
+  const selected=data[type][i]||"", options=[...new Set([selected,...classSkillOptions(type==="intChoices"?"int":type==="specialistChoices"?"specialist":"class",i)])].filter(Boolean);
+  return `<label>${prefix} ${i+1} de ${count}<select data-${type==="choices"?"class-choice":type==="intChoices"?"int-choice":"specialist-choice"}="${i}"><option value="">Selecione uma perícia</option>${options.map(name=>`<option value="${esc(name)}" ${name===selected?"selected":""}>${esc(name)}</option>`).join("")}</select></label>`;
+ }).join("");
+ const classSlots=makeSlots("choices",rule.choose,"Escolha da classe");
+ const intCount=intSkillCount(), intSlots=makeSlots("intChoices",intCount,"Escolha por Inteligência");
+ const specialistCount=specialistSkillCount(), specialistSlots=makeSlots("specialistChoices",specialistCount,"Especialista — escolha");
+ const fixed=[...(rule.required||[]),...(rule.alternatives||[]).map((options,i)=>data.alternatives[i]||options[0])];
+ return `<p class="notice">Perícias obrigatórias: <b>${fixed.map(esc).join(", ")}</b>. As escolhas abaixo contam como treinadas e recebem o bônus de treinamento. A quantidade por Inteligência considera o atributo final após os ajustes raciais.</p><div class="form-grid">${altHtml}${classSlots}${intSlots}${specialistSlots}</div><p class="notice">Escolhas preenchidas: ${data.choices.filter(Boolean).length}/${rule.choose} da classe; ${data.intChoices.filter(Boolean).length}/${intCount} por Inteligência${specialistCount?`; ${data.specialistChoices.filter(Boolean).length}/${specialistCount} de Especialista`:""}. Você pode deixar opções vazias e completá-las depois.</p>`;
+}
 function skillTotal(name,attr){
  const skill=c.skills[name]||{};
  const usesArmorPenalty=["Acrobacia","Furtividade","Ladinagem"].includes(name)||(name==="Atletismo"&&c.athleticsSwim);
  const armorPenalty=usesArmorPenalty?n(c.armorPenalty,-99,0):0;
- return Math.floor(n(c.level,1,20)/2)+mod(attr)+(skill.trained?trainBonus():0)+n(skill.extra||0,-99,99)+armorPenalty;
+ return Math.floor(n(c.level,1,20)/2)+mod(attr)+(isSkillTrained(name)?trainBonus():0)+n(skill.extra||0,-99,99)+armorPenalty;
 }
 function derived(){
  const level=n(c.level,1,20), con=mod("Constituição");
@@ -117,7 +228,14 @@ function setCharacterField(key,value){
  const oldHpMax=derived().hpMax, oldPmMax=derived().pmMax;
  if(key==="level"){updateLevel(value);return;}
  if(key==="race"){if(c.race!==value)c.raceChoices={};c.race=value;}
- else if(key==="className"){if(c.className!==value&&value)applyClassProgression(value);c.className=value;}
+ else if(key==="className"){
+  if(c.className!==value){
+   c.classSkills={alternatives:{},choices:[],intChoices:[],specialistChoices:[]};
+   c.className=value;
+   if(value)applyClassProgression(value);
+  }
+  ensureClassSkills();
+ }
  else c[key]=value;
  const next=derived();
  c.hp=n(c.hp+next.hpMax-oldHpMax,0,next.hpMax);
@@ -186,13 +304,14 @@ function overview(){
  </div></div></section>
  <div class="right-stack">
  <div class="resources">${resource("PONTOS DE VIDA","hp","hpMax","#9d4740")}${resource("PONTOS DE MANA","pm","pmMax","#6c8c9b")}${`<section class="card resource"><div class="overline">DEFESA</div><strong>${d.defense}</strong><div class="notice">10 + Destreza + outros bônus</div><div class="resource-controls"><button data-adjust="defenseBonus" data-delta="-1">−</button><input data-field="defenseBonus" type="number" value="${n(c.defenseBonus)}" aria-label="Outros bônus de Defesa"><button data-adjust="defenseBonus" data-delta="1">+</button><small>BÔNUS</small></div></section>`}</div>
- <div class="stats"><div class="stat"><span>Nível</span><strong>${n(c.level,1,20)}</strong></div><div class="stat"><span>Bônus treino</span><strong>+${trainBonus()}</strong></div><div class="stat"><span>Iniciativa</span><strong>${signed(skillTotal("Iniciativa","Des")+n(c.initiativeBonus))}</strong></div><div class="stat"><span>Perícias</span><strong>${Object.values(c.skills).filter(s=>s.trained).length}</strong></div></div>
+ <div class="stats"><div class="stat"><span>Nível</span><strong>${n(c.level,1,20)}</strong></div><div class="stat"><span>Bônus treino</span><strong>+${trainBonus()}</strong></div><div class="stat"><span>Iniciativa</span><strong>${signed(skillTotal("Iniciativa","Des")+n(c.initiativeBonus))}</strong></div><div class="stat"><span>Perícias treinadas</span><strong>${SKILLS.filter(([name])=>isSkillTrained(name)).length}</strong></div></div>
  ${card("Atributos",`<div class="attributes">${attrBlock()}<div><p class="notice">No Tormenta20, os atributos usam valores diretos: 0 representa a média humana. Os totais de perícia usam metade do nível, atributo-chave e bônus de treinamento quando aplicável.</p><button class="primary" data-goto="attributes">Editar perícias ↗</button></div></div>`)}
  </div></div>`;
 }
 function attributesPage(){
- const rows=SKILLS.map(([name,a])=>{const skill=c.skills[name]||{};return `<div class="skill-row"><span>${name} <small>(${a})</small></span><label class="trained"><input type="checkbox" data-trained="${name}" ${skill.trained?"checked":""}>Treinado</label><input type="number" data-skill-extra="${name}" value="${n(skill.extra||0)}" aria-label="Bônus extra ${name}"><span class="total">${signed(skillTotal(name,a))}</span></div>`}).join("");
+ const rows=SKILLS.map(([name,a])=>{const skill=c.skills[name]||{},auto=autoTrainedSkills().has(name);return `<div class="skill-row"><span>${name} <small>(${a})</small></span><label class="trained"><input type="checkbox" data-trained="${name}" ${isSkillTrained(name)?"checked":""} ${auto?'disabled title="Treinada pela classe ou Inteligência"':""}>Treinado</label><input type="number" data-skill-extra="${name}" value="${n(skill.extra||0)}" aria-label="Bônus extra ${name}"><span class="total">${signed(skillTotal(name,a))}</span></div>`}).join("");
  return `<div class="grid-two">${card("Atributos e raça",`<p class="notice">Distribuição por pontos: comece com todos os atributos em 0 e use até 10 pontos. Custos acumulados: 1 custa 1, 2 custa 2, 3 custa 4 e 4 custa 7. Reduzir um atributo para −1 concede 1 ponto adicional. Os valores à direita incluem os ajustes raciais.</p><div class="stats" style="margin-bottom:14px"><div class="stat"><span>Pontos usados</span><strong>${pointTotal()}</strong></div><div class="stat"><span>Disponíveis</span><strong>${10-pointTotal()}</strong></div></div><div class="attributes">${attrBlock()}</div>${raceOptions()}<p class="notice">Escolhas raciais: humano e sereia/tritão recebem +1 em três atributos diferentes; lefou não pode escolher Carisma; osteon não pode escolher Constituição. Suraggel escolhe Aggelus ou Sulfure.</p><button id="resetAttributes">Redefinir atributos para 0</button>`)}${card("Progressão e ajustes",`<div class="form-grid">${field("Nível","level",c.level,"number")}${field("PV base no 1º nível","hpFirstLevel",c.hpFirstLevel,"number")}${field("PV por nível seguinte","hpPerLevel",c.hpPerLevel,"number")}${field("PM por nível","pmPerLevel",c.pmPerLevel,"number")}${field("Bônus fixo de PV","hpBonus",c.hpBonus||0,"number")}${field("Bônus fixo de PM","pmBonus",c.pmBonus||0,"number")}${field("Penalidade de armadura (negativa)","armorPenalty",c.armorPenalty||0,"number")}${field("Bônus de Defesa","defenseBonus",c.defenseBonus,"number")}${field("Deslocamento (m)","speed",c.speed,"number")}${field("Bônus de Iniciativa","initiativeBonus",c.initiativeBonus,"number")}</div><p class="notice">PV máximos: PV base do 1º nível + Constituição; níveis seguintes: PV base por nível + Constituição, com mínimo de 1 PV por nível, mais bônus fixos. PM máximos = PM por nível × nível + bônus fixos. A penalidade de armadura afeta Acrobacia, Furtividade e Ladinagem; em Atletismo, somente natação.</p>`)}</div>
+ ${card("Treinamento por classe",classTrainingCard())}
  ${card("Perícias",`<div class="skill-row skill-head"><span>Perícia / atributo-chave</span><span>Treinamento</span><span>Bônus extra</span><span>Total</span></div><div class="skills"><label style="display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;letter-spacing:0"><input type="checkbox" data-swim style="width:16px" ${c.athleticsSwim?"checked":""}> Aplicar penalidade de armadura em Atletismo (somente natação)</label>${rows}</div>`,`Metade do nível + atributo + treinamento + extras`)} `;
 }
 function combatPage(){
@@ -211,6 +330,7 @@ function notesPage(){
  return `<div class="grid-two">${card("História do personagem",`<div class="form-grid">${field("Aparência","appearance",c.appearance,"text",true,"Como o herói se apresenta?")}<label class="wide">Personalidade<textarea data-field="personality">${esc(c.personality)}</textarea></label><label class="wide">Objetivos e motivações<textarea data-field="goals">${esc(c.goals)}</textarea></label></div>`)}${card("Anotações da campanha",`<label>Notas<textarea data-field="notes">${esc(c.notes)}</textarea></label><p class="notice">Dica: exporte um backup JSON depois de mudanças importantes.</p>`)}</div>`;
 }
 function render(){
+ normalizeClassSkills();
  syncSelect();
  $("#recordCode").textContent="AR-"+String(db.characters.indexOf(c)+1).padStart(3,"0");
  $("#breadcrumb").textContent=TABS[currentTab][0].toUpperCase();
@@ -247,6 +367,10 @@ function bindDynamic(){
   render();
  }));
  $("#resetAttributes")?.addEventListener("click",()=>{c.baseAttrs={Força:0,Destreza:0,Constituição:0,Inteligência:0,Sabedoria:0,Carisma:0};c.attrs={...c.baseAttrs};render();});
+ document.querySelectorAll("[data-class-alt]").forEach(el=>el.addEventListener("change",()=>{const data=ensureClassSkills();data.alternatives[el.dataset.classAlt]=el.value;normalizeClassSkills();render();}));
+ document.querySelectorAll("[data-class-choice]").forEach(el=>el.addEventListener("change",()=>{const data=ensureClassSkills();data.choices[n(el.dataset.classChoice,0,50)]=el.value;normalizeClassSkills();render();}));
+ document.querySelectorAll("[data-int-choice]").forEach(el=>el.addEventListener("change",()=>{const data=ensureClassSkills();data.intChoices[n(el.dataset.intChoice,0,50)]=el.value;normalizeClassSkills();render();}));
+ document.querySelectorAll("[data-specialist-choice]").forEach(el=>el.addEventListener("change",()=>{const data=ensureClassSkills();data.specialistChoices[n(el.dataset.specialistChoice,0,50)]=el.value;normalizeClassSkills();render();}));
  document.querySelectorAll("[data-trained]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.trained;c.skills[name]=c.skills[name]||{};c.skills[name].trained=el.checked;render();}));
  document.querySelectorAll("[data-skill-extra]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.skillExtra;c.skills[name]=c.skills[name]||{};c.skills[name].extra=n(el.value,-99,99);render();}));
  document.querySelectorAll("[data-swim]").forEach(el=>el.addEventListener("change",()=>{c.athleticsSwim=el.checked;render();}));
@@ -280,6 +404,6 @@ $("#editIdentity").addEventListener("click",()=>{
 });
 $("#exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({format:"cronicas-arton-backup",version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cronicas-arton-backup.json";a.click();URL.revokeObjectURL(a.href);toast("Backup exportado");});
 $("#importBtn").addEventListener("click",()=>$("#importFile").click());
-$("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text()),imported=obj.data||obj;if(!Array.isArray(imported.characters)||!imported.characters.length)throw new Error("Arquivo sem fichas válidas");if(confirm("Importar este backup e substituir as fichas atuais neste navegador?")){db=imported;db.characters.forEach(x=>{if(!x.attrs)x.attrs={Força:0,Destreza:0,Constituição:0,Inteligência:0,Sabedoria:0,Carisma:0};if(!x.baseAttrs)x.baseAttrs={...x.attrs};if(!x.raceChoices)x.raceChoices={};if(!x.skills)x.skills={};if(!Array.isArray(x.attacks))x.attacks=[];if(!Array.isArray(x.items))x.items=[];if(x.hpBonus===undefined)x.hpBonus=0;if(x.pmBonus===undefined)x.pmBonus=0;if(x.athleticsSwim===undefined)x.athleticsSwim=false;});c=db.characters.find(x=>x.id===db.active)||db.characters[0];db.active=c.id;currentTab="overview";render();toast("Backup importado");}}catch(err){alert("Não foi possível importar: "+err.message);}e.target.value="";});
+$("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text()),imported=obj.data||obj;if(!Array.isArray(imported.characters)||!imported.characters.length)throw new Error("Arquivo sem fichas válidas");if(confirm("Importar este backup e substituir as fichas atuais neste navegador?")){db=imported;db.characters.forEach(x=>{if(!x.attrs)x.attrs={Força:0,Destreza:0,Constituição:0,Inteligência:0,Sabedoria:0,Carisma:0};if(!x.baseAttrs)x.baseAttrs={...x.attrs};if(!x.raceChoices)x.raceChoices={};if(!x.skills)x.skills={};if(!x.classSkills||typeof x.classSkills!=="object")x.classSkills={alternatives:{},choices:[],intChoices:[],specialistChoices:[]};if(!x.classSkills.alternatives)x.classSkills.alternatives={};if(!Array.isArray(x.classSkills.choices))x.classSkills.choices=[];if(!Array.isArray(x.classSkills.intChoices))x.classSkills.intChoices=[];if(!Array.isArray(x.classSkills.specialistChoices))x.classSkills.specialistChoices=[];const classRule=CLASS_SKILL_RULES[x.className];(classRule?.alternatives||[]).forEach((options,i)=>{if(!options.includes(x.classSkills.alternatives[i]))x.classSkills.alternatives[i]=options[0];});if(!Array.isArray(x.attacks))x.attacks=[];if(!Array.isArray(x.items))x.items=[];if(x.hpBonus===undefined)x.hpBonus=0;if(x.pmBonus===undefined)x.pmBonus=0;if(x.athleticsSwim===undefined)x.athleticsSwim=false;});c=db.characters.find(x=>x.id===db.active)||db.characters[0];db.active=c.id;currentTab="overview";render();toast("Backup importado");}}catch(err){alert("Não foi possível importar: "+err.message);}e.target.value="";});
 $("#printBtn").addEventListener("click",()=>window.print());
 render();
