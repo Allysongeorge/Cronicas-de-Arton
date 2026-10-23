@@ -26,8 +26,22 @@ const RACE_MODS = {
 };
 const fresh = () => ({
  id: crypto.randomUUID(), name:"Novo aventureiro", player:"", race:"", className:"", origin:"", deity:"", level:1, xp:0,
- attrs:{Força:2,Destreza:1,Constituição:2,Inteligência:0,Sabedoria:0,Carisma:0},
- hp:18,hpMax:18,hpFirstLevel:16,hpPerLevel:4,pm:5,pmMax:5,pmPerLevel:5,defenseBonus:0,armorPenalty:0,speed:9,initiativeBonus:0,
+attrs: {
+  Força: 0,
+  Destreza: 0,
+  Constituição: 0,
+  Inteligência: 0,
+  Sabedoria: 0,
+  Carisma: 0
+},
+baseAttrs: {
+  Força: 0,
+  Destreza: 0,
+  Constituição: 0,
+  Inteligência: 0,
+  Sabedoria: 0,
+  Carisma: 0
+}, hp:18,hpMax:18,hpFirstLevel:16,hpPerLevel:4,pm:5,pmMax:5,pmPerLevel:5,defenseBonus:0,armorPenalty:0,athleticsSwim:false,speed:9,initiativeBonus:0,
  skills:{}, attacks:[{name:"Ataque principal",bonus:0,damage:"1d6",crit:"x2"}], items:[{name:"Equipamento inicial",qty:1,weight:0}], money:0,
  notes:"", appearance:"", personality:"", goals:""
 });
@@ -40,8 +54,25 @@ function n(v,min=-999,max=99999){v=Number(v);return Math.max(min,Math.min(max,Nu
 function signed(v){return v>=0?"+"+v:String(v);}
 function mod(a){return n(c.attrs[a]??0,-20,30);}
 function trainBonus(){return c.level<=6?2:c.level<=14?4:6;}
-function skillTotal(name,attr){const s=c.skills[name]||{};return Math.floor(c.level/2)+mod(attr)+(s.trained?trainBonus():0)+n(s.extra||0,-99,99);}
-function derived(){
+function skillTotal(name, attr) {
+  const s = c.skills[name] || {};
+
+  const usesArmorPenalty =
+    ["Acrobacia", "Furtividade", "Ladinagem"].includes(name) ||
+    (name === "Atletismo" && c.athleticsSwim);
+
+  const armorPenalty = usesArmorPenalty
+    ? n(c.armorPenalty, -99, 0)
+    : 0;
+
+  return (
+    Math.floor(n(c.level, 1, 20) / 2) +
+    mod(attr) +
+    (s.trained ? trainBonus() : 0) +
+    n(s.extra || 0, -99, 99) +
+    armorPenalty
+  );
+}function derived(){
  const hpMax=n(c.hpFirstLevel,0)+mod("Constituição")+(n(c.hpPerLevel,0)+mod("Constituição"))*Math.max(0,c.level-1);
  const pmMax=n(c.pmPerLevel,0)*c.level;
  const defense=10+mod("Destreza")+n(c.defenseBonus, -99,999);
@@ -94,7 +125,40 @@ function overview(){
  </div></div>`;
 }
 function attributesPage(){
- const rows=SKILLS.map(([name,a])=>{const s=c.skills[name]||{};return `<div class="skill-row"><span>${name} <small>(${a})</small></span><label class="trained"><input type="checkbox" data-trained="${name}" ${s.trained?"checked":""}>Treinado</label><input type="number" data-skill-extra="${name}" value="${n(s.extra||0)}" aria-label="Bônus extra ${name}"><span class="total">${signed(skillTotal(name,a))}</span></div>`}).join("");
+ const rows = `
+<label style="display:flex;align-items:center;gap:8px;margin:8px 0;color:var(--muted);font-size:12px;letter-spacing:0">
+  <input
+    type="checkbox"
+    data-swim
+    style="width:16px"
+    ${c.athleticsSwim ? "checked" : ""}
+  >
+  Aplicar penalidade de armadura em Atletismo (somente natação)
+</label>
+` + SKILLS.map(([name, a]) => {
+  const s = c.skills[name] || {};
+
+  return `
+    <div class="skill-row">
+      <span>${name} <small>(${a})</small></span>
+      <label class="trained">
+        <input
+          type="checkbox"
+          data-trained="${name}"
+          ${s.trained ? "checked" : ""}
+        >
+        Treinado
+      </label>
+      <input
+        type="number"
+        data-skill-extra="${name}"
+        value="${n(s.extra || 0)}"
+        aria-label="Bônus extra ${name}"
+      >
+      <span class="total">${signed(skillTotal(name, a))}</span>
+    </div>
+  `;
+}).join("");
  return `<div class="grid-two">${card("Atributos",`<div class="attributes">${attrBlock()}</div>`)}${card("Parâmetros derivados",`<div class="form-grid">${field("Nível","level",c.level,"number")}${field("PV base no 1º nível","hpFirstLevel",c.hpFirstLevel,"number")}${field("PV por nível seguinte","hpPerLevel",c.hpPerLevel,"number")}${field("PM por nível*","pmPerLevel",c.pmPerLevel,"number")}${field("Bônus de Defesa","defenseBonus",c.defenseBonus,"number")}${field("Deslocamento (m)","speed",c.speed,"number")}${field("Bônus de Iniciativa","initiativeBonus",c.initiativeBonus,"number")}</div><p class="notice">* Campos provisórios configuráveis. Na próxima etapa vamos preencher as progressões por classe e revisar cada fórmula contra a edição do livro que você usa.</p>`)}</div>
  ${card("Perícias",`<div class="skill-row skill-head"><span>Perícia / atributo-chave</span><span>Treinamento</span><span>Bônus extra</span><span>Total</span></div><div class="skills">${rows}</div>`,"Metade do nível + atributo + treinamento + extras")}`;
 }
@@ -146,6 +210,12 @@ function bindDynamic(){
  document.querySelectorAll("[data-attr]").forEach(el=>el.addEventListener("change",()=>{c.attrs[el.dataset.attr]=n(el.value,-10,30);render();}));
  document.querySelectorAll("[data-trained]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.trained;c.skills[name]=c.skills[name]||{};c.skills[name].trained=el.checked;render();}));
  document.querySelectorAll("[data-skill-extra]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.skillExtra;c.skills[name]=c.skills[name]||{};c.skills[name].extra=n(el.value,-99,99);render();}));
+ document.querySelectorAll("[data-swim]").forEach(el => {
+  el.addEventListener("change", () => {
+    c.athleticsSwim = el.checked;
+    render();
+  });
+});
  document.querySelectorAll("[data-adjust]").forEach(el=>el.addEventListener("click",()=>{const key=el.dataset.adjust;c[key]=n(c[key],-999,99999)+n(el.dataset.delta);render();}));
  document.querySelectorAll("[data-goto]").forEach(el=>el.addEventListener("click",()=>{currentTab=el.dataset.goto;render();}));
  document.querySelectorAll("[data-remove-item]").forEach(el=>el.addEventListener("click",()=>{c.items.splice(n(el.dataset.removeItem,0),1);render();}));
@@ -163,7 +233,87 @@ $("#nav").addEventListener("click",e=>{const b=e.target.closest("[data-tab]");if
 $("#characterSelect").addEventListener("change",()=>{c=db.characters.find(x=>x.id===$("#characterSelect").value)||db.characters[0];currentTab="overview";render();});
 $("#newCharacter").addEventListener("click",()=>{const x=fresh();x.name="Novo aventureiro "+(db.characters.length+1);db.characters.push(x);db.active=x.id;c=x;currentTab="overview";render();});
 $("#deleteCharacter").addEventListener("click",()=>{if(db.characters.length===1){alert("Mantenha ao menos uma ficha no arquivo.");return;}if(confirm(`Excluir a ficha de ${c.name}?`)){db.characters=db.characters.filter(x=>x.id!==c.id);c=db.characters[0];db.active=c.id;currentTab="overview";render();}});
-$("#editIdentity").addEventListener("click",()=>{const html=identityFields();const dlg=document.createElement("dialog");dlg.style.cssText="background:#191a16;color:#eee8db;border:1px solid #c7a66a;border-radius:8px;padding:24px;width:min(600px,90vw)";dlg.innerHTML=`<form method="dialog"><h2>Identidade do aventureiro</h2>${html}<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px"><button value="cancel">Cancelar</button><button class="primary" value="save">Salvar identidade</button></div></form>`;document.body.appendChild(dlg);dlg.showModal();dlg.addEventListener("close",()=>{if(dlg.returnValue==="save"){dlg.querySelectorAll("[data-field]").forEach(el=>{c[el.dataset.field]=el.type==="number"?n(el.value):el.value;});c.level=n(c.level,1,20);render();}dlg.remove();});});
+$("#editIdentity").addEventListener("click", () => {
+  const html = identityFields();
+  const dlg = document.createElement("dialog");
+
+  dlg.style.cssText =
+    "background:#191a16;color:#eee8db;border:1px solid #c7a66a;" +
+    "border-radius:8px;padding:24px;width:min(600px,90vw)";
+
+  dlg.innerHTML = `
+    <form>
+      <h2>Identidade do aventureiro</h2>
+      ${html}
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+        <button type="button" id="cancelIdentity">Cancelar</button>
+        <button type="button" class="primary" id="saveIdentity">
+          Salvar identidade
+        </button>
+      </div>
+    </form>
+  `;
+
+  document.body.appendChild(dlg);
+  dlg.showModal();
+
+  dlg.querySelector("#cancelIdentity").addEventListener("click", () => {
+    dlg.close();
+    dlg.remove();
+  });
+
+  dlg.querySelector("#saveIdentity").addEventListener("click", () => {
+    const oldLevel = n(c.level, 1, 20);
+    const oldRace = c.race;
+    const oldHp = n(c.hp, 0, 99999);
+    const oldPm = n(c.pm, 0, 99999);
+    const oldHpMax = derived().hpMax;
+    const oldPmMax = derived().pmMax;
+
+    dlg.querySelectorAll("[data-field]").forEach(el => {
+      if (el.dataset.field !== "level") {
+        c[el.dataset.field] =
+          el.type === "number" ? n(el.value) : el.value;
+      }
+    });
+
+    // Uma raça nova não deve herdar escolhas raciais antigas.
+    if (c.race !== oldRace) {
+      c.raceChoices = {};
+    }
+
+    // Atualiza os valores-base de PV e PM conforme a classe.
+    if (c.className) {
+      applyClassProgression(c.className);
+    }
+
+    updateLevel(dlg.querySelector('[data-field="level"]').value);
+
+    // Se o nível não mudou, ajusta os recursos pela diferença
+    // causada pela raça ou pela classe escolhida.
+    if (n(c.level, 1, 20) === oldLevel) {
+      const after = derived();
+
+      c.hp = n(
+        oldHp + after.hpMax - oldHpMax,
+        0,
+        after.hpMax
+      );
+
+      c.pm = n(
+        oldPm + after.pmMax - oldPmMax,
+        0,
+        after.pmMax
+      );
+    }
+
+    dlg.close();
+    dlg.remove();
+
+    render();
+    toast("Identidade salva");
+  });
+});
 $("#exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({format:"cronicas-arton-backup",version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cronicas-arton-backup.json";a.click();URL.revokeObjectURL(a.href);toast("Backup exportado");});
 $("#importBtn").addEventListener("click",()=>$("#importFile").click());
 $("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text()), imported=obj.data||obj;if(!Array.isArray(imported.characters)||!imported.characters.length)throw new Error("Arquivo sem fichas válidas");if(confirm("Importar este backup e substituir as fichas atuais neste navegador?")){db=imported;c=db.characters.find(x=>x.id===db.active)||db.characters[0];currentTab="overview";render();toast("Backup importado");}}catch(err){alert("Não foi possível importar: "+err.message);}e.target.value="";});
