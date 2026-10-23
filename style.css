@@ -164,4 +164,4 @@ footer { border-top:1px solid var(--line); padding-top:18px; margin-top:28px; di
  .card,.stats,.combat-stat { background:white; color:#111; border-color:#aaa; break-inside:avoid; }
  input,select,textarea { color:#111; background:white; border-color:#aaa; }
  .muted,label,.page-heading p,small { color:#444; }
-}
+} 
