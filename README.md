@@ -1,14 +1,14 @@
-# Crônicas de Arton — Fichas Tormenta20
+# Crônicas de Arton — Atualização: Progressão de Classe
 
-Protótipo inicial de uma ficha digital para personagens de Tormenta20, com visual de fantasia sombria.
+Esta atualização adiciona a aba **Progressão** à ficha. Ela mostra as habilidades fixas da classe por nível e permite registrar o nome dos poderes escolhidos nos níveis liberados.
 
 ## Arquivos
-- `index.html`: estrutura e navegação.
-- `style.css`: identidade visual responsiva e estilos de impressão.
-- `app.js`: fichas, cálculos provisórios, perícias, combate, inventário e backup JSON.
+- `index.html` — adiciona a aba Progressão à navegação.
+- `style.css` — estilos dos cartões de progressão.
+- `app.js` — tabelas de progressão, registro de poderes, bloqueio por nível e migração dos dados salvos/importados.
 
-## Como testar
-Abra `index.html` em um navegador ou publique os arquivos no GitHub Pages. Os dados ficam no `localStorage` do navegador; use **Exportar backup** para salvar uma cópia JSON.
+## Como atualizar no GitHub
+Substitua os três arquivos atuais na raiz do repositório (`index.html`, `style.css` e `app.js`) pelos arquivos deste pacote. Depois abra o site e atualize com Ctrl+F5. Os dados salvos no navegador são mantidos; os novos campos são adicionados automaticamente.
 
-## Importante
-Esta é uma primeira versão de protótipo. Os campos de progressão de PV/PM estão configuráveis e as fórmulas de classe, raça, carga e outros modificadores precisam ser validadas para a edição exata do livro antes de considerar a ficha pronta para jogo. Projeto de fã, não oficial.
+## Escopo desta etapa
+A aba registra os poderes escolhidos, inclusive quando o personagem escolhe substituir um poder de classe por um poder geral. A lista catalogada de poderes com validação automática de pré-requisitos será desenvolvida em uma etapa futura.
