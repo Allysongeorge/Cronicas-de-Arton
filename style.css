@@ -1,128 +1,35 @@
-.page-heading p { color:var(--muted); font-size:12px; margin-bottom:0; }
-.view { display:grid; gap:16px; }
-.card { background:var(--panel); border:1px solid var(--line); border-radius:calc(7px * var(--site-radius-scale)); padding:20px; min-width:0; }
-.card-title { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:17px; }
-.card-title h3 { margin:0; }
-.tag { display:inline-block; border:1px solid #c7a66a55; color:var(--gold); background:#c7a66a0c; border-radius:3px; padding:5px 8px; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
-.dashboard { display:grid; grid-template-columns:minmax(220px,.78fr) minmax(0,1.6fr); gap:16px; }
-.profile { padding:0; overflow:hidden; }
-.portrait { min-height:155px; display:grid; place-items:center; background:radial-gradient(ellipse at 50% 100%, #60382a, transparent 60%),linear-gradient(135deg,#29271f,#151611); color:#c7a66a99; font:100px Georgia,serif; border-bottom:1px solid var(--line); }
-.profile-body { padding:20px; }
-.profile-body h3 { font-size:25px; margin:12px 0 5px; overflow-wrap:anywhere; }
-.profile-body p { color:var(--muted); font-size:12px; }
-.details { border-top:1px solid var(--line); margin-top:16px; padding-top:12px; display:grid; gap:11px; }
-.detail { display:flex; justify-content:space-between; gap:10px; font-size:11px; }
-.detail span { color:var(--muted); }
-.right-stack { display:grid; gap:16px; align-content:start; }
-.resources { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
-.resource { padding:16px; }
-.resource strong { display:block; font:27px Georgia,serif; margin:11px 0; }
-.resource strong small { font:11px var(--site-font-body); }
-.bar { height:4px; background:#ffffff12; border-radius:8px; overflow:hidden; margin-bottom:12px; }
-.bar i { display:block; height:100%; background:var(--gold); }
-.resource-controls { display:flex; align-items:center; gap:5px; }
-.resource-controls button { padding:3px 8px; }
-.resource-controls input { padding:4px; text-align:center; }
-.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--panel); }
-.stat { padding:15px; border-right:1px solid var(--line); }
-.stat:last-child { border:0; }
-.stat span { display:block; color:var(--muted); font-size:9px; letter-spacing:.13em; text-transform:uppercase; }
-.stat strong { display:block; font:27px Georgia,serif; margin-top:8px; }
-.attributes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-.attr-list { display:grid; gap:9px; }
-.attr { display:grid; grid-template-columns:minmax(0,1fr) 68px 42px; align-items:center; gap:8px; }
-.attr .attr-name { font-size:12px; color:var(--ink); }
-.attr input { text-align:center; padding:7px; }
-.modifier { color:var(--gold); text-align:center; font:17px Georgia,serif; }
-.grid-two { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-.form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-.form-grid .wide { grid-column:1/-1; }
-.skills { display:grid; gap:4px; }
-.skill-row { display:grid; grid-template-columns:minmax(0,1fr) 72px 64px 54px; gap:8px; align-items:center; border-bottom:1px solid #ffffff0b; padding:8px 0; font-size:12px; }
-.skill-row:last-child { border:0; }
-.skill-row input { padding:6px; text-align:center; }
-.skill-row .total { color:var(--gold); text-align:center; font-weight:700; }
-.skill-row .trained { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--muted); }
-.skill-row .trained input { width:15px; }
-.skill-head { color:var(--muted); font-size:9px; letter-spacing:.1em; text-transform:uppercase; }
-.combat-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
-.combat-stat { padding:15px; border:1px solid var(--line); background:var(--panel-2); border-radius:5px; }
-.combat-stat label { font-size:9px; }
-.combat-stat input { font:24px Georgia,serif; margin-top:8px; }
-.item-row { display:grid; grid-template-columns:minmax(0,1fr) 76px 90px 42px; gap:8px; align-items:end; margin-bottom:9px; }
-.item-row button { padding:8px; }
-.item-list { display:grid; gap:8px; }
-.item { display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--line); padding:10px 0; }
-.item strong { font-size:12px; }
-.item small { display:block; margin-top:3px; }
-.item button { padding:5px 9px; }
-.roll-result { color:var(--gold); font:25px Georgia,serif; }
-footer { border-top:1px solid var(--line); padding-top:18px; margin-top:28px; display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:10px; }
-.notice { color:var(--muted); font-size:11px; line-height:1.6; }
-.hidden { display:none!important; }
-@media(max-width:1050px) {
- .app { grid-template-columns:190px minmax(0,1fr); }
- aside { padding:22px 12px; }
- main { padding:0 20px 24px; }
- .dashboard { grid-template-columns:1fr; }
- .profile { display:grid; grid-template-columns:160px minmax(0,1fr); }
- .portrait { height:100%; border-bottom:0; border-right:1px solid var(--line); }
-}
-@media(max-width:700px) {
- .app { grid-template-columns:1fr; }
- aside { min-height:auto; padding:14px; border-right:0; border-bottom:1px solid var(--line); }
- .brand { margin-bottom:8px; }
- .side-label,.aside-bottom { display:none; }
- aside select { max-width:none; }
- nav { display:flex; overflow:auto; margin-top:6px; }
- nav button { white-space:nowrap; padding:9px; }
- main { padding:0 13px 20px; }
- header { align-items:flex-start; padding:14px 0; flex-direction:column; }
- .intro { padding:25px 3px; }
- h1 { font-size:calc(34px * var(--site-heading-scale)); }
- .sigill { width:78px; height:78px; font-size:42px; }
- .resources { grid-template-columns:1fr; }
- .stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
- .stat:nth-child(2) { border-right:0; }
- .stat:nth-child(-n+2) { border-bottom:1px solid var(--line); }
- .attributes,.grid-two,.form-grid { grid-template-columns:1fr; }
- .profile { display:block; }
- .portrait { min-height:120px; border-right:0; border-bottom:1px solid var(--line); }
- .combat-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
- .item-row { grid-template-columns:minmax(0,1fr) 65px 75px 38px; gap:5px; }
- .skill-row { grid-template-columns:minmax(0,1fr) 54px 55px 45px; gap:4px; font-size:11px; }
- footer { flex-direction:column; }
-}
-@media print {
- aside,.header-actions,.page-heading button,footer button,.no-print { display:none!important; }
- .app { display:block; background:white; color:#111; }
- body,main { background:white; color:#111; padding:0; }
- .card,.stats,.combat-stat { background:white; color:#111; border-color:#aaa; break-inside:avoid; }
- input,select,textarea { color:#111; background:white; border-color:#aaa; }
- .muted,label,.page-heading p,small { color:#444; }
-}
-
-
-/* Progressão de classe */
-.progression-summary { display:grid; gap:10px; }
-.progression-meter { display:grid; grid-template-columns:1fr auto; align-items:center; gap:8px 16px; }
-.progression-meter > div:first-child { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:11px; }
-.progression-meter > div:last-child { display:flex; gap:12px; align-items:center; color:var(--muted); font-size:11px; }
-.progression-meter strong { color:var(--gold); }
-.progression-meter .bar { grid-column:1/-1; margin:0 0 5px; }
-.progression-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-.progression-item { display:grid; grid-template-columns:58px minmax(0,1fr); gap:12px; padding:13px; border:1px solid var(--line); border-radius:6px; background:var(--panel); min-width:0; }
-.progression-item.is-locked { opacity:.63; }
-.progression-level { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border-right:1px solid var(--line); padding-right:10px; }
-.progression-level strong { color:var(--gold); font:25px Georgia,serif; }
-.progression-level span,.progression-level small { font-size:8px; letter-spacing:.12em; color:var(--muted); }
-.progression-content { display:grid; gap:10px; min-width:0; }
-.progression-features { display:flex; flex-wrap:wrap; gap:5px; align-items:center; min-height:22px; }
-.progression-feature { display:inline-block; padding:4px 7px; border:1px solid #c7a66a45; border-radius:3px; color:var(--ink); background:#c7a66a0b; font-size:10px; line-height:1.4; }
-.progression-muted,.progression-no-power { font-size:10px; line-height:1.5; color:var(--muted); }
-.progression-power { font-size:10px; }
-.progression-power input { padding:7px 8px; font-size:11px; }
-.progression-power input:disabled { opacity:.6; cursor:not-allowed; }
-@media(max-width:700px) {
- .progression-list { grid-template-columns:1fr; }
- .progression-meter { grid-template-columns:1fr; }
+<!doctype html>
+<html lang="pt-BR" data-sites-preview-theme="custom">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crônicas de Arton — Fichas Tormenta20</title>
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="brand-mark">✦</div><div class="brand-text">CRÔNICAS DE<strong>ARTON</strong></div></div>
+    <div class="side-label">SEU GRIMÓRIO DE HERÓIS</div>
+    <select id="characterSelect" aria-label="Escolher personagem"></select>
+    <button id="newCharacter">＋ Nova ficha</button>
+    <nav id="nav">
+      <button class="active" data-tab="overview"><span>◈</span>Visão geral</button>
+      <button data-tab="attributes"><span>✧</span>Atributos e perícias</button>
+      <button data-tab="combat"><span>⚔</span>Combate</button>
+      <button data-tab="inventory"><span>◇</span>Inventário</button>
+      <button data-tab="notes"><span>▤</span>Notas e história</button>
+      <button data-tab="progression"><span>✧</span>Progressão</button>
+    </nav>
+    <div class="aside-bottom"><div><i class="save-dot"></i><span id="saveStatus">Salvo neste navegador</span></div><p>TORMENTA20<br>Projeto de fã, não oficial.<br>Os dados ficam neste navegador.</p></div>
+  </aside>
+  <main>
+    <header><div>CRÔNICAS / <b id="breadcrumb">VISÃO GERAL</b></div><div class="header-actions"><button id="exportBtn">↓ Exportar backup</button><button id="importBtn">↑ Importar</button><input id="importFile" type="file" accept=".json,application/json" hidden><button id="printBtn">Imprimir / PDF</button></div></header>
+    <section class="intro"><div><div class="eyebrow">REGISTRO DE AVENTUREIRO · <span id="recordCode">AR-001</span></div><h1>Forje seu destino<br>em <em>Arton.</em></h1><p>Uma ficha viva para histórias extraordinárias.</p></div><div class="sigill" aria-hidden="true">✦</div></section>
+    <div class="page-heading"><div><h2 id="pageTitle">Visão geral</h2><p id="pageSubtitle">A jornada começa com uma única decisão.</p></div><button class="primary" id="editIdentity">Editar identidade ↗</button></div>
+    <div class="view" id="view"></div>
+    <footer><span>CRÔNICAS DE ARTON · FICHA DE PERSONAGEM</span><span>Faça backups regularmente para não perder suas fichas.</span><button id="deleteCharacter">Excluir ficha</button></footer>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
