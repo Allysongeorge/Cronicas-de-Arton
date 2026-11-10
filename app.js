@@ -48,6 +48,108 @@ const CLASS_SKILL_RULES = {
  "Nobre": {required:["Vontade"],alternatives:[["Diplomacia","Intimidação"]],choose:4,options:["Adestramento","Atuação","Cavalgar","Conhecimento","Diplomacia","Enganação","Fortitude","Guerra","Iniciativa","Intimidação","Intuição","Investigação","Jogatina","Luta","Nobreza","Ofício","Percepção","Pontaria"]},
  "Paladino": {required:["Luta","Vontade"],choose:2,options:["Adestramento","Atletismo","Cavalgar","Cura","Diplomacia","Fortitude","Guerra","Iniciativa","Intuição","Nobreza","Percepção","Religião"]}
 };
+const CLASS_LEVEL_FEATURES = {
+ "Arcanista": {
+  1:["Caminho do arcanista","Magias (1º círculo)"],
+  5:["Magias (2º círculo)"], 9:["Magias (3º círculo)"],
+  13:["Magias (4º círculo)"], 17:["Magias (5º círculo)"], 20:["Alta arcana"]
+ },
+ "Bárbaro": {
+  1:["Fúria +2"], 3:["Instinto selvagem +1"], 5:["Redução de dano 2"],
+  6:["Fúria +3"], 8:["Redução de dano 4"], 9:["Instinto selvagem +2"],
+  11:["Fúria +4","Redução de dano 6"], 14:["Redução de dano 8"],
+  15:["Instinto selvagem +3"], 16:["Fúria +5"], 17:["Redução de dano 10"],
+  20:["Fúria titânica"]
+ },
+ "Bardo": {
+  1:["Inspiração +1","Magias (1º círculo)"], 2:["Eclético"],
+  5:["Inspiração +2"], 6:["Magias (2º círculo)"], 9:["Inspiração +3"],
+  10:["Magias (3º círculo)"], 13:["Inspiração +4"], 14:["Magias (4º círculo)"],
+  17:["Inspiração +5"], 20:["Artista completo"]
+ },
+ "Bucaneiro": {
+  1:["Audácia","Insolência"], 2:["Evasão"], 3:["Esquiva sagaz +1"],
+  5:["Panache"], 7:["Esquiva sagaz +2"], 10:["Evasão aprimorada"],
+  11:["Esquiva sagaz +3"], 15:["Esquiva sagaz +4"],
+  19:["Esquiva sagaz +5"], 20:["Sorte de Nimb"]
+ },
+ "Caçador": {
+  1:["Marca da presa +1d4","Rastreador"], 3:["Explorador"],
+  5:["Caminho do explorador","Marca da presa +1d8"], 7:["Explorador"],
+  9:["Marca da presa +1d12"], 11:["Explorador"], 13:["Marca da presa +2d8"],
+  15:["Explorador"], 17:["Marca da presa +2d10"], 19:["Explorador"],
+  20:["Mestre caçador"]
+ },
+ "Cavaleiro": {
+  1:["Baluarte +2","Código de honra"], 2:["Duelo +2"],
+  5:["Caminho do cavaleiro","Baluarte +4"],
+  7:["Baluarte protege aliados adjacentes","Duelo +3"], 9:["Baluarte +6"],
+  11:["Resoluto"], 12:["Duelo +4"], 13:["Baluarte +8"],
+  15:["Baluarte protege aliados em alcance curto"],
+  17:["Baluarte +10","Duelo +5"], 20:["Bravura final"]
+ },
+ "Clérigo": {
+  1:["Devoto fiel","Magias (1º círculo)"], 5:["Magias (2º círculo)"],
+  9:["Magias (3º círculo)"], 13:["Magias (4º círculo)"],
+  17:["Magias (5º círculo)"], 20:["Mão da divindade"]
+ },
+ "Druida": {
+  1:["Devoto fiel","Empatia selvagem","Magias (1º círculo)"],
+  2:["Caminho dos ermos"], 6:["Magias (2º círculo)"],
+  10:["Magias (3º círculo)"], 14:["Magias (4º círculo)"],
+  20:["Força da natureza"]
+ },
+ "Guerreiro": {
+  1:["Ataque especial +4"], 3:["Durão"], 5:["Ataque especial +8"],
+  6:["Ataque extra"], 9:["Ataque especial +12"],
+  13:["Ataque especial +16"], 17:["Ataque especial +20"], 20:["Campeão"]
+ },
+ "Inventor": {
+  1:["Engenhosidade","Protótipo"], 2:["Fabricar item superior (1 melhoria)"],
+  3:["Comerciante"], 5:["Fabricar item superior (2 melhorias)"],
+  7:["Encontrar fraqueza"], 8:["Fabricar item superior (3 melhorias)"],
+  9:["Fabricar item mágico (menor)"], 10:["Olho do dragão"],
+  11:["Fabricar item superior (4 melhorias)"],
+  13:["Fabricar item mágico (médio)"], 17:["Fabricar item mágico (maior)"],
+  20:["Obra-prima"]
+ },
+ "Ladino": {
+  1:["Ataque furtivo +1d6","Especialista"], 2:["Evasão"],
+  3:["Ataque furtivo +2d6"], 4:["Esquiva sobrenatural"],
+  5:["Ataque furtivo +3d6"], 7:["Ataque furtivo +4d6"],
+  8:["Olhos nas costas"], 9:["Ataque furtivo +5d6"],
+  10:["Evasão aprimorada"], 11:["Ataque furtivo +6d6"],
+  13:["Ataque furtivo +7d6"], 15:["Ataque furtivo +8d6"],
+  17:["Ataque furtivo +9d6"], 19:["Ataque furtivo +10d6"],
+  20:["A pessoa certa para o trabalho"]
+ },
+ "Lutador": {
+  1:["Briga (1d6)","Golpe relâmpago"], 3:["Casca grossa (Con)"],
+  5:["Briga (1d8)","Golpe cruel"], 7:["Casca grossa (Con +1)"],
+  9:["Briga (1d10)","Golpe violento"], 11:["Casca grossa (Con +2)"],
+  13:["Briga (2d6)"], 15:["Casca grossa (Con +3)"],
+  17:["Briga (2d8)"], 19:["Casca grossa (Con +4)"],
+  20:["Dono da rua (2d10)"]
+ },
+ "Nobre": {
+  1:["Autoconfiança","Espólio","Orgulho"],
+  2:["Palavras afiadas (2d6)"], 3:["Riqueza"], 4:["Gritar ordens"],
+  5:["Presença aristocrática"], 6:["Palavras afiadas (4d6)"],
+  10:["Palavras afiadas (6d6)"], 14:["Palavras afiadas (8d6)"],
+  18:["Palavras afiadas (10d6)"], 20:["Realeza"]
+ },
+ "Paladino": {
+  1:["Abençoado","Código do herói","Golpe divino (+1d8)"],
+  2:["Cura pelas mãos (1d8+1 PV)"], 3:["Aura sagrada"],
+  5:["Bênção da justiça","Golpe divino (+2d8)"],
+  6:["Cura pelas mãos (2d8+2 PV)"], 9:["Golpe divino (+3d8)"],
+  10:["Cura pelas mãos (3d8+3 PV)"], 13:["Golpe divino (+4d8)"],
+  14:["Cura pelas mãos (4d8+4 PV)"], 17:["Golpe divino (+5d8)"],
+  18:["Cura pelas mãos (5d8+5 PV)"], 20:["Vingador sagrado"]
+ }
+};
+const CLASS_POWER_LEVELS = Array.from({length:19},(_,i)=>i+2);
+
 const SKILLS = [
  ["Acrobacia","Des"],["Adestramento","Car"],["Atletismo","For"],["Atuação","Car"],["Cavalgar","Des"],["Conhecimento","Int"],["Cura","Sab"],["Diplomacia","Car"],["Enganação","Car"],["Fortitude","Con"],["Furtividade","Des"],["Guerra","Int"],["Iniciativa","Des"],["Intimidação","Car"],["Intuição","Sab"],["Investigação","Int"],["Jogatina","Car"],["Ladinagem","Des"],["Luta","For"],["Misticismo","Int"],["Nobreza","Int"],["Ofício","Int"],["Percepção","Sab"],["Pilotagem","Des"],["Pontaria","Des"],["Reflexos","Des"],["Religião","Sab"],["Sobrevivência","Sab"],["Vontade","Sab"]
 ];
@@ -56,7 +158,8 @@ const TABS = {
  attributes:["Atributos e perícias","Ajuste atributos, treinamento e bônus."],
  combat:["Combate","Recursos, defesa, ataques e testes rápidos."],
  inventory:["Inventário","Equipamentos, carga e tesouros."],
- notes:["Notas e história","Detalhes que fazem seu herói ser único."]
+ notes:["Notas e história","Detalhes que fazem seu herói ser único."],
+ progression:["Progressão","Habilidades de classe e poderes conquistados por nível."]
 };
 const fresh = () => ({
  id: crypto.randomUUID(), name:"Novo aventureiro", player:"", race:"", raceChoices:{}, className:"", origin:"", deity:"", level:1, xp:0,
@@ -64,7 +167,7 @@ const fresh = () => ({
  baseAttrs:{Força:0,Destreza:0,Constituição:0,Inteligência:0,Sabedoria:0,Carisma:0},
  hp:16,hpMax:16,hpFirstLevel:16,hpPerLevel:4,hpBonus:0,pm:3,pmMax:3,pmPerLevel:3,pmBonus:0,
  defenseBonus:0,armorPenalty:0,athleticsSwim:false,speed:9,initiativeBonus:0,
- skills:{}, classSkills:{alternatives:{},choices:[],intChoices:[],specialistChoices:[]}, attacks:[{name:"Ataque principal",bonus:0,damage:"1d6",crit:"x2"}], items:[{name:"Equipamento inicial",qty:1,weight:0}], money:0,
+ skills:{}, classSkills:{alternatives:{},choices:[],intChoices:[],specialistChoices:[]}, classPowers:{}, attacks:[{name:"Ataque principal",bonus:0,damage:"1d6",crit:"x2"}], items:[{name:"Equipamento inicial",qty:1,weight:0}], money:0,
  notes:"", appearance:"", personality:"", goals:""
 });
 let db = {characters:[fresh()],active:null}, c, currentTab="overview";
@@ -82,6 +185,7 @@ db.characters.forEach(x=>{
  if(!Array.isArray(x.classSkills.choices))x.classSkills.choices=[];
  if(!Array.isArray(x.classSkills.intChoices))x.classSkills.intChoices=[];
  if(!Array.isArray(x.classSkills.specialistChoices))x.classSkills.specialistChoices=[];
+ if(!x.classPowers||typeof x.classPowers!=="object"||Array.isArray(x.classPowers))x.classPowers={};
  const ruleForSavedClass=CLASS_SKILL_RULES[x.className];
  (ruleForSavedClass?.alternatives||[]).forEach((options,i)=>{if(!options.includes(x.classSkills.alternatives[i]))x.classSkills.alternatives[i]=options[0];});
  if(!Array.isArray(x.attacks))x.attacks=[];
@@ -231,6 +335,7 @@ function setCharacterField(key,value){
  else if(key==="className"){
   if(c.className!==value){
    c.classSkills={alternatives:{},choices:[],intChoices:[],specialistChoices:[]};
+   c.classPowers={};
    c.className=value;
    if(value)applyClassProgression(value);
   }
@@ -314,6 +419,23 @@ function attributesPage(){
  ${card("Treinamento por classe",classTrainingCard())}
  ${card("Perícias",`<div class="skill-row skill-head"><span>Perícia / atributo-chave</span><span>Treinamento</span><span>Bônus extra</span><span>Total</span></div><div class="skills"><label style="display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;letter-spacing:0"><input type="checkbox" data-swim style="width:16px" ${c.athleticsSwim?"checked":""}> Aplicar penalidade de armadura em Atletismo (somente natação)</label>${rows}</div>`,`Metade do nível + atributo + treinamento + extras`)} `;
 }
+function progressionPage(){
+ const className=c.className;
+ if(!className||!CLASS_LEVEL_FEATURES[className]){
+  return card("Progressão de classe",`<p class="notice">Escolha uma classe em <b>Editar identidade</b> para consultar a progressão de níveis, habilidades e poderes.</p>`);
+ }
+ if(!c.classPowers||typeof c.classPowers!=="object"||Array.isArray(c.classPowers))c.classPowers={};
+ const level=n(c.level,1,20), data=CLASS_LEVEL_FEATURES[className];
+ const unlockedSlots=CLASS_POWER_LEVELS.filter(lvl=>lvl<=level).length;
+ const recordedSlots=CLASS_POWER_LEVELS.filter(lvl=>lvl<=level&&String(c.classPowers[lvl]||"").trim()).length;
+ const rows=Array.from({length:20},(_,index)=>{
+  const lvl=index+1, features=data[lvl]||[], available=lvl<=level, hasPower=CLASS_POWER_LEVELS.includes(lvl);
+  const featureHtml=features.length?features.map(name=>`<span class="progression-feature">${esc(name)}</span>`).join(""):`<span class="progression-muted">Nenhuma habilidade fixa indicada na tabela neste nível.</span>`;
+  const powerHtml=hasPower?`<label class="progression-power">Poder de ${esc(className.toLowerCase())} (ou poder geral)<input type="text" data-class-power="${lvl}" value="${esc(c.classPowers[lvl]||"")}" placeholder="Registre o poder escolhido" ${available?"":"disabled"}></label>`:`<div class="progression-no-power">Sem escolha de poder de classe neste nível.</div>`;
+  return `<article class="progression-item ${available?"is-unlocked":"is-locked"}"><div class="progression-level"><strong>${String(lvl).padStart(2,"0")}</strong><span>NÍVEL</span><small>${available?"Desbloqueado":"Futuro"}</small></div><div class="progression-content"><div class="progression-features">${featureHtml}</div>${powerHtml}</div></article>`;
+ }).join("");
+ return `<section class="card progression-summary"><div class="card-title"><h3>${esc(className)} · Progressão de classe</h3><small>Nível ${level} / 20</small></div><p class="notice">A lista abaixo resume as habilidades fixas indicadas na tabela da classe. Nos níveis com “Poder de ${esc(className.toLowerCase())}”, registre o nome do poder que você escolheu. O campo também aceita um poder geral, caso você use a opção de substituição prevista nas regras.</p><div class="progression-meter"><div><span>Níveis alcançados</span><strong>${level}/20</strong></div><div class="bar"><i style="width:${level/20*100}%"></i></div><div><span>Poderes registrados</span><strong>${recordedSlots}/${unlockedSlots}</strong></div></div></section><section class="progression-list">${rows}</section><p class="notice">Os campos futuros ficam bloqueados até você aumentar o nível. O que já foi registrado é mantido caso reduza o nível temporariamente. Esta etapa é um registro da progressão; a seleção automática de poderes com descrição e validação de pré-requisitos será uma etapa posterior.</p>`;
+}
 function combatPage(){
  const d=derived();
  return `<div class="combat-stats"><div class="combat-stat"><label>DEFESA TOTAL</label><input readonly value="${d.defense}"></div><div class="combat-stat"><label>INICIATIVA</label><input readonly value="${signed(skillTotal("Iniciativa","Des")+n(c.initiativeBonus))}"></div><div class="combat-stat"><label>DESLOCAMENTO (m)</label><input type="number" data-field="speed" value="${n(c.speed)}"></div></div>
@@ -338,7 +460,7 @@ function render(){
  $("#pageSubtitle").textContent=TABS[currentTab][1];
  $("#editIdentity").classList.toggle("hidden",currentTab!=="overview");
  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===currentTab));
- const views={overview,attributes:attributesPage,combat:combatPage,inventory:inventoryPage,notes:notesPage};
+ const views={overview,attributes:attributesPage,combat:combatPage,inventory:inventoryPage,notes:notesPage,progression:progressionPage};
  $("#view").innerHTML=views[currentTab]();
  bindDynamic();
  save();
@@ -371,6 +493,7 @@ function bindDynamic(){
  document.querySelectorAll("[data-class-choice]").forEach(el=>el.addEventListener("change",()=>{const data=ensureClassSkills();data.choices[n(el.dataset.classChoice,0,50)]=el.value;normalizeClassSkills();render();}));
  document.querySelectorAll("[data-int-choice]").forEach(el=>el.addEventListener("change",()=>{const data=ensureClassSkills();data.intChoices[n(el.dataset.intChoice,0,50)]=el.value;normalizeClassSkills();render();}));
  document.querySelectorAll("[data-specialist-choice]").forEach(el=>el.addEventListener("change",()=>{const data=ensureClassSkills();data.specialistChoices[n(el.dataset.specialistChoice,0,50)]=el.value;normalizeClassSkills();render();}));
+ document.querySelectorAll("[data-class-power]").forEach(el=>el.addEventListener("change",()=>{const level=n(el.dataset.classPower,2,20);c.classPowers[level]=el.value.trim();const recorded=CLASS_POWER_LEVELS.filter(lvl=>lvl<=n(c.level,1,20)&&String(c.classPowers[lvl]||"").trim()).length;const total=CLASS_POWER_LEVELS.filter(lvl=>lvl<=n(c.level,1,20)).length;const counter=document.querySelector(".progression-meter > div:last-child strong");if(counter)counter.textContent=`${recorded}/${total}`;save();}));
  document.querySelectorAll("[data-trained]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.trained;c.skills[name]=c.skills[name]||{};c.skills[name].trained=el.checked;render();}));
  document.querySelectorAll("[data-skill-extra]").forEach(el=>el.addEventListener("change",()=>{const name=el.dataset.skillExtra;c.skills[name]=c.skills[name]||{};c.skills[name].extra=n(el.value,-99,99);render();}));
  document.querySelectorAll("[data-swim]").forEach(el=>el.addEventListener("change",()=>{c.athleticsSwim=el.checked;render();}));
@@ -404,6 +527,6 @@ $("#editIdentity").addEventListener("click",()=>{
 });
 $("#exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({format:"cronicas-arton-backup",version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="cronicas-arton-backup.json";a.click();URL.revokeObjectURL(a.href);toast("Backup exportado");});
 $("#importBtn").addEventListener("click",()=>$("#importFile").click());
-$("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text()),imported=obj.data||obj;if(!Array.isArray(imported.characters)||!imported.characters.length)throw new Error("Arquivo sem fichas válidas");if(confirm("Importar este backup e substituir as fichas atuais neste navegador?")){db=imported;db.characters.forEach(x=>{if(!x.attrs)x.attrs={Força:0,Destreza:0,Constituição:0,Inteligência:0,Sabedoria:0,Carisma:0};if(!x.baseAttrs)x.baseAttrs={...x.attrs};if(!x.raceChoices)x.raceChoices={};if(!x.skills)x.skills={};if(!x.classSkills||typeof x.classSkills!=="object")x.classSkills={alternatives:{},choices:[],intChoices:[],specialistChoices:[]};if(!x.classSkills.alternatives)x.classSkills.alternatives={};if(!Array.isArray(x.classSkills.choices))x.classSkills.choices=[];if(!Array.isArray(x.classSkills.intChoices))x.classSkills.intChoices=[];if(!Array.isArray(x.classSkills.specialistChoices))x.classSkills.specialistChoices=[];const classRule=CLASS_SKILL_RULES[x.className];(classRule?.alternatives||[]).forEach((options,i)=>{if(!options.includes(x.classSkills.alternatives[i]))x.classSkills.alternatives[i]=options[0];});if(!Array.isArray(x.attacks))x.attacks=[];if(!Array.isArray(x.items))x.items=[];if(x.hpBonus===undefined)x.hpBonus=0;if(x.pmBonus===undefined)x.pmBonus=0;if(x.athleticsSwim===undefined)x.athleticsSwim=false;});c=db.characters.find(x=>x.id===db.active)||db.characters[0];db.active=c.id;currentTab="overview";render();toast("Backup importado");}}catch(err){alert("Não foi possível importar: "+err.message);}e.target.value="";});
+$("#importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const obj=JSON.parse(await f.text()),imported=obj.data||obj;if(!Array.isArray(imported.characters)||!imported.characters.length)throw new Error("Arquivo sem fichas válidas");if(confirm("Importar este backup e substituir as fichas atuais neste navegador?")){db=imported;db.characters.forEach(x=>{if(!x.attrs)x.attrs={Força:0,Destreza:0,Constituição:0,Inteligência:0,Sabedoria:0,Carisma:0};if(!x.baseAttrs)x.baseAttrs={...x.attrs};if(!x.raceChoices)x.raceChoices={};if(!x.skills)x.skills={};if(!x.classSkills||typeof x.classSkills!=="object")x.classSkills={alternatives:{},choices:[],intChoices:[],specialistChoices:[]};if(!x.classSkills.alternatives)x.classSkills.alternatives={};if(!Array.isArray(x.classSkills.choices))x.classSkills.choices=[];if(!Array.isArray(x.classSkills.intChoices))x.classSkills.intChoices=[];if(!Array.isArray(x.classSkills.specialistChoices))x.classSkills.specialistChoices=[];if(!x.classPowers||typeof x.classPowers!=="object"||Array.isArray(x.classPowers))x.classPowers={};const classRule=CLASS_SKILL_RULES[x.className];(classRule?.alternatives||[]).forEach((options,i)=>{if(!options.includes(x.classSkills.alternatives[i]))x.classSkills.alternatives[i]=options[0];});if(!Array.isArray(x.attacks))x.attacks=[];if(!Array.isArray(x.items))x.items=[];if(x.hpBonus===undefined)x.hpBonus=0;if(x.pmBonus===undefined)x.pmBonus=0;if(x.athleticsSwim===undefined)x.athleticsSwim=false;});c=db.characters.find(x=>x.id===db.active)||db.characters[0];db.active=c.id;currentTab="overview";render();toast("Backup importado");}}catch(err){alert("Não foi possível importar: "+err.message);}e.target.value="";});
 $("#printBtn").addEventListener("click",()=>window.print());
 render();
